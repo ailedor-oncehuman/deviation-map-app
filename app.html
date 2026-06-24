@@ -72,7 +72,7 @@ const DEFAULT=[
 {id:'p4',no:'004',x:.76,y:.42,title:'デビエーション収容箱 No.004',region:'クルタ山',place:'トール・グラス付近',coord:'3001,-4948',desc:'トール・グラスのワールドストーンから湖沿いに右へ進んだ先にある小屋の中',image:'No004.png',done:false},
 {id:'p5',no:'005',x:.57,y:.22,title:'デビエーション収容箱 No.005',region:'ローンウルフ荒野',place:'ブラックフェルタウン付近',coord:'4109,-1447',desc:'ブラックフェルタウンのワールドストーンを真っ直ぐ進んだ先にある大きな建物の左側の建物の中',image:'No005.png',done:false}
 ];
-const KEY='deviationMapPins_v09';let pins=JSON.parse(localStorage.getItem(KEY)||'null')||DEFAULT;pins=pins.map((p,i)=>({...DEFAULT[i],...p,done:!!p.done}));
+const KEY='deviationMapPins_v08';let pins=JSON.parse(localStorage.getItem(KEY)||'null')||DEFAULT;pins=pins.map((p,i)=>({...DEFAULT[i],...p,done:!!p.done}));
 const stage=document.getElementById('stage'),layer=document.getElementById('layer'),map=document.getElementById('map'),pinsEl=document.getElementById('pins'),drawer=document.getElementById('drawer'),coord=document.getElementById('coord'),toast=document.getElementById('toast'),panel=document.getElementById('panel');
 let scale=1,tx=0,ty=0,selected=null,pointers=new Map(),lastX=0,lastY=0,startScale=1,startDist=0;
 function save(){localStorage.setItem(KEY,JSON.stringify(pins))}
