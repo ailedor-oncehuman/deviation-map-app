@@ -13,14 +13,14 @@
 <body>
 <div class="app">
   <header class="top">
-    <div class="title"><h1>デビエーション収容箱マップ</h1><p>MANIBUS BASE MAP / Ver0.4</p></div>
+    <div class="title"><h1>デビエーション収容箱マップ</h1><p>MANIBUS BASE MAP / Ver0.5</p></div>
     <div class="countPill"><small>回収率</small><br><b id="count">0/5</b></div>
     <button class="btn" id="fitBtn">全体表示</button>
     <button class="btn" id="resetBtn">リセット</button>
   </header>
   <main class="stage" id="stage">
     <div class="mapLayer" id="layer">
-      <img class="mapImg" id="mapImg" src="manibus-map.jpeg?v=4" alt="マニブスマップ">
+      <img class="mapImg" id="mapImg" src="manibus-map.jpeg?v=5" alt="マニブスマップ">
       <div id="pins"></div>
     </div>
     <section class="hud">
@@ -33,7 +33,7 @@
     </section>
     <div class="zoom"><button id="zin">＋</button><button id="zout">−</button></div>
     <div class="coord" id="coord">X: 0 / Y: 0</div>
-    <div class="bottomNote">Version 0.4</div>
+    <div class="bottomNote">Version 0.5</div>
     <aside class="drawer" id="drawer"></aside>
     <div class="toast" id="toast">保存しました</div>
   </main>
@@ -46,8 +46,9 @@ const DEFAULT_PINS=[
  {id:'p4',no:'004',x:.76,y:.42,name:'デビエーション収容箱 No.004',devi:'未確認',coord:'X: ---- / Y: ----',desc:'アイアン川周辺の収容箱候補。'},
  {id:'p5',no:'005',x:.57,y:.22,name:'デビエーション収容箱 No.005',devi:'未確認',coord:'X: ---- / Y: ----',desc:'ダークハーツ地域周辺の収容箱候補。'}
 ];
-const KEY='deviationMapPins_v04';
-let pins=JSON.parse(localStorage.getItem(KEY)||'null')||DEFAULT_PINS.map(p=>({...p,done:false}));
+const KEY='deviationMapPins_v05';
+let pins=JSON.parse(localStorage.getItem(KEY)||'null')||JSON.parse(localStorage.getItem('deviationMapPins_v04')||'null')||DEFAULT_PINS.map(p=>({...p,done:false}));
+pins=pins.map((p,i)=>({...DEFAULT_PINS[i],...p,done:!!p.done})).slice(0,DEFAULT_PINS.length);
 const stage=document.getElementById('stage'), layer=document.getElementById('layer'), mapImg=document.getElementById('mapImg'), pinsEl=document.getElementById('pins'), drawer=document.getElementById('drawer'), count=document.getElementById('count'), countBig=document.getElementById('countBig'), coord=document.getElementById('coord'), toast=document.getElementById('toast');
 let scale=1, tx=0, ty=0, selected=null;
 function save(){localStorage.setItem(KEY,JSON.stringify(pins));}
@@ -61,7 +62,7 @@ function render(){
  pins.forEach(p=>{
    if(undoneOnly && p.done) return;
    const b=document.createElement('button'); b.className='pin'+(p.done?' done':''); b.style.left=(p.x*1024)+'px'; b.style.top=(p.y*1113)+'px'; b.setAttribute('aria-label',p.name);
-   b.innerHTML='<img src="deviation-box-icon.png?v=4" alt="収容箱">';
+   b.innerHTML='<img src="deviation-box-icon.png?v=5" alt="収容箱">';
    b.onclick=(e)=>{e.stopPropagation(); openDrawer(p.id)};
    pinsEl.appendChild(b);
  });
@@ -72,8 +73,8 @@ function render(){
 function openDrawer(id, animate=true){
  selected=id; const p=pins.find(v=>v.id===id); if(!p)return;
  drawer.innerHTML=`
-  <div class="drawerHeader"><h2>${p.name}</h2><button class="close" onclick="closeDrawer()">×</button></div>
-  <img class="shot" src="deviation-box.png?v=4" alt="スクリーンショット">
+  <div class="drawerHeader"><h2>${p.name}</h2><button class="close" onclick="closeDrawer()">×</button></div><div style="display:inline-block;margin-top:8px;padding:6px 10px;border-radius:999px;background:${p.done?'rgba(70,240,197,.95)':'rgba(40,234,216,.12)'};color:${p.done?'#062023':'#eaffff'};border:1px solid var(--line);font-weight:900">${p.done?'回収済み':'未回収'}</div>
+  <img class="shot" src="deviation-box.png?v=5" alt="スクリーンショット">
   <label class="doneBox"><input type="checkbox" ${p.done?'checked':''} onchange="toggleDone('${p.id}')">回収済み</label>
   <div class="row"><div class="label">デビ名</div><div class="value">${p.devi||'未確認'}</div></div>
   <div class="row"><div class="label">座標</div><div class="value">${p.coord||'未登録'}</div></div>
@@ -98,7 +99,7 @@ document.getElementById('zin').onclick=()=>zoomAt(innerWidth/2,innerHeight/2,sca
 document.getElementById('zout').onclick=()=>zoomAt(innerWidth/2,innerHeight/2,scale/1.25);
 stage.addEventListener('dblclick',e=>zoomAt(e.clientX,e.clientY,scale*1.6));
 render();
-if('serviceWorker' in navigator){navigator.serviceWorker.getRegistrations().then(rs=>rs.forEach(r=>r.update())); navigator.serviceWorker.register('sw.js?v=4').catch(()=>{});}
+if('serviceWorker' in navigator){navigator.serviceWorker.getRegistrations().then(rs=>rs.forEach(r=>r.update())); navigator.serviceWorker.register('sw.js?v=5').catch(()=>{});}
 </script>
 </body>
 </html>
