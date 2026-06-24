@@ -1,101 +1,104 @@
 <!doctype html>
 <html lang="ja">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <title>デビエーション収容箱マップ</title>
-  <link rel="manifest" href="manifest.webmanifest">
-  <style>
-    :root{--bg:#061014;--panel:rgba(6,16,20,.86);--line:rgba(75,255,235,.28);--accent:#23e6d5;--text:#e9fbff;--muted:#99b5bd;--danger:#ff5268;}
-    *{box-sizing:border-box} html,body{margin:0;height:100%;overflow:hidden;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;}
-    button,input,textarea{font:inherit;color:inherit} button{background:rgba(255,255,255,.06);border:1px solid var(--line);border-radius:10px;padding:10px 12px;cursor:pointer} button:active{transform:scale(.98)}
-    .app{height:100%;display:flex;flex-direction:column;background:radial-gradient(circle at 50% 30%,#10252d 0,#061014 65%)}
-    header{height:64px;display:flex;align-items:center;justify-content:space-between;padding:10px 14px;border-bottom:1px solid var(--line);background:rgba(3,9,12,.78);backdrop-filter:blur(10px);z-index:5}
-    h1{font-size:18px;margin:0;line-height:1.2}.sub{font-size:11px;color:var(--muted)}.topBtns{display:flex;gap:8px}.topBtns button{padding:8px 10px;font-size:13px}
-    .stage{position:relative;flex:1;overflow:hidden;touch-action:none;}
-    .mapLayer{position:absolute;left:0;top:0;transform-origin:0 0;will-change:transform;}
-    .mapImg{display:block;width:1100px;max-width:none;user-select:none;-webkit-user-drag:none;filter:saturate(1.05) contrast(1.03)}
-    .pin{position:absolute;transform:translate(-50%,-50%);width:54px;height:42px;border:0;background:transparent;padding:0;z-index:2;filter:drop-shadow(0 6px 10px rgba(0,0,0,.8));}
-    .pin span{display:block;width:54px;height:36px;border-radius:8px;border:2px solid #d8f4ff;box-shadow:0 0 16px rgba(35,230,213,.75);background:url('deviation-box.png') center/cover no-repeat;}
-    .pin.done span{border-color:var(--accent);opacity:.62}.pin.done span::after{content:'✓';position:absolute;right:-8px;bottom:0;width:22px;height:22px;border-radius:50%;display:grid;place-items:center;background:var(--accent);color:#041014;font-weight:900;font-size:14px}
-    .hud{position:absolute;left:12px;top:12px;width:220px;z-index:3;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:12px;backdrop-filter:blur(10px)}
-    .hud h2{margin:0 0 8px;font-size:14px}.stat{display:flex;justify-content:space-between;gap:10px;color:var(--muted);font-size:13px}.stat b{display:block;color:var(--text);font-size:22px;margin-top:4px}.checks{margin-top:12px;border-top:1px solid rgba(255,255,255,.08);padding-top:10px;font-size:13px;display:grid;gap:8px}label{display:flex;align-items:center;gap:8px}input[type=checkbox]{accent-color:var(--accent)}
-    .zoom{position:absolute;right:14px;top:50%;transform:translateY(-50%);display:grid;gap:8px;z-index:3}.zoom button{width:44px;height:44px;font-size:24px;padding:0;background:rgba(3,9,12,.72)}
-    .bottom{position:absolute;left:12px;right:12px;bottom:12px;z-index:3;display:flex;justify-content:space-between;align-items:end;pointer-events:none}.legend,.coords{pointer-events:auto;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:10px 12px;font-size:12px;color:var(--muted)}.legend{display:flex;gap:12px;flex-wrap:wrap}.legend b{color:var(--text)}
-    .drawer{position:absolute;right:12px;top:78px;bottom:12px;width:min(380px,calc(100% - 24px));z-index:4;background:rgba(5,13,17,.94);border:1px solid var(--line);border-radius:14px;transform:translateX(calc(100% + 20px));transition:.22s;box-shadow:0 18px 50px rgba(0,0,0,.45);overflow:auto}.drawer.open{transform:translateX(0)}
-    .drawer img{width:100%;display:block;border-radius:13px 13px 0 0}.drawerBody{padding:14px}.drawer h2{margin:0 0 4px;font-size:18px}.tag{display:inline-block;color:#051014;background:var(--accent);border-radius:999px;padding:3px 9px;font-size:12px;font-weight:700}.row{border-top:1px solid rgba(255,255,255,.08);padding:10px 0}.row small{display:block;color:var(--muted);margin-bottom:3px}.actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}.danger{border-color:rgba(255,82,104,.45);color:#ffd8de}
-    .addForm{display:none;position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);z-index:6;width:min(420px,calc(100% - 24px));background:rgba(5,13,17,.96);border:1px solid var(--line);border-radius:14px;padding:14px;box-shadow:0 18px 50px rgba(0,0,0,.55)}.addForm.open{display:block}.addForm input,.addForm textarea{width:100%;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.16);border-radius:10px;padding:10px;margin:6px 0 10px}.addForm textarea{min-height:80px}.hint{font-size:12px;color:var(--muted);line-height:1.5}
-    @media(max-width:720px){header{height:58px}.topBtns button{font-size:12px;padding:7px 8px}.hud{width:184px;font-size:12px}.drawer{top:auto;height:56%;}.legend{display:none}.mapImg{width:1000px}}
-  </style>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>デビエーション収容箱マップ</title>
+<link rel="manifest" href="manifest.webmanifest">
+<style>
+:root{--bg:#041014;--panel:rgba(5,17,22,.88);--panel2:rgba(8,28,35,.94);--line:rgba(54,255,235,.28);--accent:#28ead8;--text:#effcff;--muted:#9db8c0;--danger:#ff5268;--ok:#46f0c5;}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}html,body{margin:0;height:100%;overflow:hidden;background:radial-gradient(circle at 65% 20%,#12313a 0,#041014 45%,#02090c 100%);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;touch-action:none;user-select:none}.app{height:100%;display:flex;flex-direction:column}.top{height:74px;padding:env(safe-area-inset-top) 14px 8px;border-bottom:1px solid var(--line);background:rgba(3,12,16,.92);display:flex;align-items:flex-end;gap:10px;z-index:20}.title{flex:1;min-width:0}.title h1{font-size:19px;line-height:1.05;margin:0 0 4px;font-weight:900}.title p{margin:0;color:var(--muted);font-size:11px;letter-spacing:.08em}.btn{border:1px solid var(--line);background:rgba(10,35,43,.72);color:var(--text);border-radius:12px;padding:9px 10px;font-weight:800;font-size:13px;box-shadow:0 0 18px rgba(35,230,213,.08)}.countPill{border:1px solid var(--line);background:linear-gradient(180deg,rgba(20,103,98,.62),rgba(5,22,26,.84));border-radius:12px;padding:7px 11px;min-width:76px;text-align:center}.countPill b{font-size:21px}.stage{position:relative;flex:1;overflow:hidden}.mapLayer{position:absolute;left:0;top:0;transform-origin:0 0;will-change:transform}.mapImg{display:block;width:1024px;height:auto;pointer-events:none}.pin{position:absolute;width:54px;height:54px;margin-left:-27px;margin-top:-45px;border:0;background:none;padding:0;filter:drop-shadow(0 7px 8px rgba(0,0,0,.75));z-index:5}.pin::after{content:"";position:absolute;left:22px;bottom:-2px;border-left:6px solid transparent;border-right:6px solid transparent;border-top:12px solid var(--accent);filter:drop-shadow(0 0 6px var(--accent))}.pin img{width:54px;height:54px;object-fit:cover;border-radius:12px;border:2px solid rgba(255,255,255,.85);box-shadow:0 0 0 2px rgba(40,234,216,.55),0 0 18px rgba(40,234,216,.8);background:#111}.pin.done img{opacity:.58;filter:grayscale(.25)}.pin.done::before{content:"✓";position:absolute;right:-7px;top:-8px;width:22px;height:22px;border-radius:50%;display:grid;place-items:center;background:var(--ok);color:#062023;font-weight:900;border:2px solid #fff;z-index:3}.hud{position:absolute;left:12px;top:12px;width:235px;max-width:calc(100vw - 24px);background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:14px;box-shadow:0 10px 30px rgba(0,0,0,.35);z-index:10}.hud h2{font-size:16px;margin:0 0 12px}.hud .big{font-size:36px;font-weight:900;line-height:1}.hud small{color:var(--muted)}.check{display:flex;gap:10px;align-items:center;margin-top:12px;font-weight:800}.check input{width:24px;height:24px;accent-color:var(--accent)}.hint{margin-top:12px;color:var(--muted);font-size:12px;line-height:1.55}.zoom{position:absolute;right:14px;top:50%;transform:translateY(-50%);display:grid;gap:8px;z-index:12}.zoom button{width:58px;height:58px;border-radius:16px;border:1px solid var(--line);background:rgba(5,20,25,.9);color:#fff;font-size:34px;font-weight:300}.coord{position:absolute;left:14px;bottom:18px;background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:11px 14px;color:#c9f7ff;font-weight:800;z-index:10}.drawer{position:absolute;right:10px;top:88px;width:min(390px,calc(100vw - 20px));max-height:calc(100% - 110px);overflow:auto;background:var(--panel2);border:1px solid var(--line);border-radius:20px;box-shadow:0 18px 50px rgba(0,0,0,.55);z-index:30;transform:translateX(110%);transition:.22s ease;padding:14px}.drawer.open{transform:translateX(0)}.drawerHeader{display:flex;gap:10px;align-items:flex-start}.drawer h2{margin:0;font-size:19px;line-height:1.2}.close{margin-left:auto;border:1px solid var(--line);background:transparent;color:#fff;border-radius:10px;width:38px;height:34px;font-size:22px}.shot{width:100%;border-radius:14px;border:1px solid rgba(255,255,255,.15);margin:12px 0;display:block}.row{border-top:1px solid rgba(255,255,255,.12);padding:10px 0}.label{color:var(--muted);font-size:12px;margin-bottom:4px}.value{font-size:16px;font-weight:800;white-space:pre-wrap}.doneBox{display:flex;align-items:center;gap:10px;margin:12px 0;padding:12px;border:1px solid var(--line);border-radius:14px;background:rgba(40,234,216,.08);font-weight:900}.doneBox input{width:26px;height:26px;accent-color:var(--accent)}.drawerActions{display:flex;gap:8px;flex-wrap:wrap}.drawerActions button{flex:1;min-width:120px}.bottomNote{position:absolute;right:14px;bottom:16px;color:rgba(255,255,255,.38);font-size:12px;z-index:4}.toast{position:absolute;left:50%;bottom:78px;transform:translateX(-50%);background:rgba(0,0,0,.8);border:1px solid var(--line);padding:10px 14px;border-radius:999px;opacity:0;transition:.2s;z-index:50}.toast.show{opacity:1}@media(max-width:720px){.top{height:80px;padding-left:10px;padding-right:8px}.title h1{font-size:18px}.btn{font-size:12px;padding:8px}.countPill{min-width:70px}.hud{top:12px;left:10px;width:245px}.drawer{left:10px;right:10px;top:auto;bottom:12px;width:auto;max-height:58%;transform:translateY(115%)}.drawer.open{transform:translateY(0)}.zoom{right:10px}.zoom button{width:54px;height:54px}.coord{bottom:14px}}
+</style>
 </head>
 <body>
 <div class="app">
-  <header>
-    <div><h1>デビエーション収容箱マップ</h1><div class="sub">MANIBUS BASE MAP / Ver0.3</div></div>
-    <div class="topBtns"><button id="addBtn">＋ピン追加</button><button id="fitBtn">全体表示</button><button id="exportBtn">保存データ</button></div>
+  <header class="top">
+    <div class="title"><h1>デビエーション収容箱マップ</h1><p>MANIBUS BASE MAP / Ver0.4</p></div>
+    <div class="countPill"><small>回収率</small><br><b id="count">0/5</b></div>
+    <button class="btn" id="fitBtn">全体表示</button>
+    <button class="btn" id="resetBtn">リセット</button>
   </header>
   <main class="stage" id="stage">
-    <div class="mapLayer" id="mapLayer">
-      <img class="mapImg" id="mapImg" src="manibus-map.jpeg" alt="マニブス全域マップ">
+    <div class="mapLayer" id="layer">
+      <img class="mapImg" id="mapImg" src="manibus-map.jpeg?v=4" alt="マニブスマップ">
       <div id="pins"></div>
     </div>
     <section class="hud">
       <h2>発見状況</h2>
-      <div class="stat"><span>回収率<b id="done">0/5</b></span><span>登録数<b id="total">5</b></span></div>
-      <div class="checks">
-        <label><input type="checkbox" id="showAll" checked>すべて表示</label>
-        <label><input type="checkbox" id="showUndone">未回収のみ</label>
-      </div>
-      <div class="hint" style="margin-top:10px">ドラッグ：移動<br>ピンチ：拡大/縮小<br>追加：地図を長押し or ＋ピン追加</div>
+      <small>デビエーション収容箱</small>
+      <div class="big" id="countBig">0/5</div>
+      <label class="check"><input type="checkbox" id="showAll" checked>すべて表示</label>
+      <label class="check"><input type="checkbox" id="showUndone">未回収のみ</label>
+      <div class="hint">ドラッグ：地図を移動<br>ピンチ：拡大/縮小<br>箱アイコンをタップ：詳細表示</div>
     </section>
     <div class="zoom"><button id="zin">＋</button><button id="zout">−</button></div>
-    <div class="bottom"><div class="legend"><b>📦 未回収</b><b>✅ 回収済み</b><span>ピンをタップで詳細</span></div><div class="coords" id="coords">X: 0 / Y: 0</div></div>
+    <div class="coord" id="coord">X: 0 / Y: 0</div>
+    <div class="bottomNote">Version 0.4</div>
     <aside class="drawer" id="drawer"></aside>
-    <form class="addForm" id="form">
-      <h2>収容箱ピンを追加</h2>
-      <div class="hint">地図上の位置を指定してから内容を入力します。座標は画像上の割合で保存されます。</div>
-      <input id="name" placeholder="名前 例：デビエーション収容箱 No.001" required>
-      <input id="dev" placeholder="デビ名 例：ミニワンダー"><input id="place" placeholder="場所メモ 例：ダークハーツ地域 北側の建物付近">
-      <input id="coord" placeholder="ゲーム座標 例：2340,-546">
-      <textarea id="desc" placeholder="説明文"></textarea>
-      <div class="actions"><button type="submit">登録</button><button type="button" id="cancelBtn">キャンセル</button></div>
-    </form>
+    <div class="toast" id="toast">保存しました</div>
   </main>
 </div>
 <script>
 const DEFAULT_PINS=[
- {id:'p1',x:.64,y:.31,name:'デビエーション収容箱 No.001',dev:'未入力',place:'ローンウルフ荒野 周辺',coord:'未入力',desc:'説明を入力してください。',done:false},
- {id:'p2',x:.48,y:.49,name:'デビエーション収容箱 No.002',dev:'未入力',place:'クルタ山 周辺',coord:'未入力',desc:'説明を入力してください。',done:false},
- {id:'p3',x:.73,y:.64,name:'デビエーション収容箱 No.003',dev:'未入力',place:'ブロークンデルタ 周辺',coord:'未入力',desc:'説明を入力してください。',done:false},
- {id:'p4',x:.76,y:.42,name:'デビエーション収容箱 No.004',dev:'未入力',place:'アイアン川 周辺',coord:'未入力',desc:'説明を入力してください。',done:false},
- {id:'p5',x:.57,y:.22,name:'デビエーション収容箱 No.005',dev:'未入力',place:'ダークハーツ地域 周辺',coord:'未入力',desc:'説明を入力してください。',done:false}
+ {id:'p1',no:'001',x:.64,y:.31,name:'デビエーション収容箱 No.001',devi:'未確認',coord:'X: ---- / Y: ----',desc:'デビエーション収容箱の位置サンプルです。実際の座標が分かったら差し替えます。'},
+ {id:'p2',no:'002',x:.48,y:.49,name:'デビエーション収容箱 No.002',devi:'未確認',coord:'X: ---- / Y: ----',desc:'クルタ山周辺の収容箱候補。'},
+ {id:'p3',no:'003',x:.73,y:.64,name:'デビエーション収容箱 No.003',devi:'未確認',coord:'X: ---- / Y: ----',desc:'ブロークンデルタ周辺の収容箱候補。'},
+ {id:'p4',no:'004',x:.76,y:.42,name:'デビエーション収容箱 No.004',devi:'未確認',coord:'X: ---- / Y: ----',desc:'アイアン川周辺の収容箱候補。'},
+ {id:'p5',no:'005',x:.57,y:.22,name:'デビエーション収容箱 No.005',devi:'未確認',coord:'X: ---- / Y: ----',desc:'ダークハーツ地域周辺の収容箱候補。'}
 ];
-let pins=JSON.parse(localStorage.getItem('deviboxPins')||'null')||DEFAULT_PINS;
-const stage=document.getElementById('stage'), layer=document.getElementById('mapLayer'), img=document.getElementById('mapImg'), pinsEl=document.getElementById('pins');
-let scale=1, tx=0, ty=0, active=null, selected=null, addPos={x:.5,y:.5};
-function save(){localStorage.setItem('deviboxPins',JSON.stringify(pins));}
+const KEY='deviationMapPins_v04';
+let pins=JSON.parse(localStorage.getItem(KEY)||'null')||DEFAULT_PINS.map(p=>({...p,done:false}));
+const stage=document.getElementById('stage'), layer=document.getElementById('layer'), mapImg=document.getElementById('mapImg'), pinsEl=document.getElementById('pins'), drawer=document.getElementById('drawer'), count=document.getElementById('count'), countBig=document.getElementById('countBig'), coord=document.getElementById('coord'), toast=document.getElementById('toast');
+let scale=1, tx=0, ty=0, selected=null;
+function save(){localStorage.setItem(KEY,JSON.stringify(pins));}
+function showToast(t='保存しました'){toast.textContent=t;toast.classList.add('show');setTimeout(()=>toast.classList.remove('show'),1300)}
 function apply(){layer.style.transform=`translate(${tx}px,${ty}px) scale(${scale})`;}
-function fit(){const r=stage.getBoundingClientRect(); const iw=img.naturalWidth||1100, ih=img.naturalHeight||1000; const s=Math.min(r.width/iw,r.height/ih)*.96; scale=s; tx=(r.width-iw*s)/2; ty=(r.height-ih*s)/2; apply();}
-img.onload=fit; window.addEventListener('resize',fit);
-function render(){pinsEl.innerHTML=''; const undoneOnly=document.getElementById('showUndone').checked; pins.forEach(p=>{if(undoneOnly&&p.done)return; const b=document.createElement('button'); b.className='pin '+(p.done?'done':''); b.style.left=(p.x*100)+'%'; b.style.top=(p.y*100)+'%'; b.innerHTML='<span></span>'; b.title=p.name; b.onclick=e=>{e.stopPropagation();openDrawer(p.id)}; pinsEl.appendChild(b);}); document.getElementById('total').textContent=pins.length; document.getElementById('done').textContent=pins.filter(p=>p.done).length+'/'+pins.length;}
-function openDrawer(id){selected=id; const p=pins.find(v=>v.id===id); drawer.classList.add('open'); drawer.innerHTML=`<img src="deviation-box.png" onerror="this.style.display='none'"><div class="drawerBody"><h2>${p.name}</h2><span class="tag">${p.done?'回収済み':'未回収'}</span><div class="row"><small>デビ名</small>${p.dev||'未入力'}</div><div class="row"><small>座標</small>${p.coord||'未入力'}</div><div class="row"><small>場所</small>${p.place||'未入力'}</div><div class="row"><small>説明</small>${p.desc||'未入力'}</div><div class="row"><small>スクリーンショット</small>デビエーション収容箱の画像を表示中</div><label class="row" style="cursor:pointer"><input type="checkbox" ${p.done?'checked':''} onchange="toggleDone('${p.id}')"> 回収済み</label><div class="actions"><button onclick="copyCoord('${p.id}')">座標コピー</button><button class="danger" onclick="deletePin('${p.id}')">削除</button><button onclick="drawer.classList.remove('open')">閉じる</button></div></div>`;}
-window.toggleDone=id=>{const p=pins.find(v=>v.id===id);p.done=!p.done;save();render();openDrawer(id)};
-window.deletePin=id=>{pins=pins.filter(v=>v.id!==id);save();render();drawer.classList.remove('open')};
-window.copyCoord=id=>{const p=pins.find(v=>v.id===id);navigator.clipboard?.writeText(p.coord||'')};
-function stageToMap(cx,cy){const r=stage.getBoundingClientRect(); return {x:(cx-r.left-tx)/scale/(img.naturalWidth||1100), y:(cy-r.top-ty)/scale/(img.naturalHeight||1000)};}
-let pointers=new Map(), lastDist=0, lastScale=1;
-stage.addEventListener('pointerdown',e=>{pointers.set(e.pointerId,{x:e.clientX,y:e.clientY}); stage.setPointerCapture(e.pointerId); active={x:e.clientX,y:e.clientY,tx,ty,t:Date.now()};});
-stage.addEventListener('pointermove',e=>{if(!pointers.has(e.pointerId))return; pointers.set(e.pointerId,{x:e.clientX,y:e.clientY}); const pts=[...pointers.values()]; if(pts.length===1&&active){tx=active.tx+e.clientX-active.x; ty=active.ty+e.clientY-active.y; apply(); const m=stageToMap(e.clientX,e.clientY); coords.textContent=`X: ${Math.round(m.x*1000)} / Y: ${Math.round(m.y*1000)}`;} if(pts.length>=2){const d=Math.hypot(pts[0].x-pts[1].x,pts[0].y-pts[1].y); if(!lastDist){lastDist=d;lastScale=scale;} zoomAt((pts[0].x+pts[1].x)/2,(pts[0].y+pts[1].y)/2, lastScale*d/lastDist, false);}});
-stage.addEventListener('pointerup',e=>{const was=active; pointers.delete(e.pointerId); lastDist=0; if(was&&Date.now()-was.t>650&&Math.hypot(e.clientX-was.x,e.clientY-was.y)<8){addPos=stageToMap(e.clientX,e.clientY); document.getElementById('form').classList.add('open');} active=null;});
-stage.addEventListener('wheel',e=>{e.preventDefault(); zoomAt(e.clientX,e.clientY,scale*(e.deltaY<0?1.12:.88));},{passive:false});
-function zoomAt(cx,cy,newScale,clamp=true){newScale=Math.max(.35,Math.min(4,newScale)); const r=stage.getBoundingClientRect(); const mx=(cx-r.left-tx)/scale, my=(cy-r.top-ty)/scale; scale=newScale; tx=cx-r.left-mx*scale; ty=cy-r.top-my*scale; apply();}
-zin.onclick=()=>zoomAt(innerWidth/2,innerHeight/2,scale*1.2); zout.onclick=()=>zoomAt(innerWidth/2,innerHeight/2,scale*.8); fitBtn.onclick=fit;
-addBtn.onclick=()=>{addPos=stageToMap(stage.clientWidth/2,stage.clientHeight/2); form.classList.add('open')}; cancelBtn.onclick=()=>form.classList.remove('open');
-form.onsubmit=e=>{e.preventDefault(); pins.push({id:'p'+Date.now(),x:Math.max(0,Math.min(1,addPos.x)),y:Math.max(0,Math.min(1,addPos.y)),name:name.value,dev:dev.value,place:place.value,coord:coord.value,desc:desc.value,done:false}); form.reset(); form.classList.remove('open'); save(); render();};
-showUndone.onchange=render; showAll.onchange=()=>{showUndone.checked=false;render()};
-exportBtn.onclick=()=>{const data='data:application/json;charset=utf-8,'+encodeURIComponent(JSON.stringify(pins,null,2)); const a=document.createElement('a');a.href=data;a.download='devibox-map-data.json';a.click();};
+function fit(){const r=stage.getBoundingClientRect(); const s=Math.min(r.width/1024,r.height/1113)*.96; scale=s; tx=(r.width-1024*s)/2; ty=(r.height-1113*s)/2; apply();}
+mapImg.onload=fit; window.addEventListener('resize',fit);
+function render(){
+ const undoneOnly=document.getElementById('showUndone').checked;
+ pinsEl.innerHTML='';
+ pins.forEach(p=>{
+   if(undoneOnly && p.done) return;
+   const b=document.createElement('button'); b.className='pin'+(p.done?' done':''); b.style.left=(p.x*1024)+'px'; b.style.top=(p.y*1113)+'px'; b.setAttribute('aria-label',p.name);
+   b.innerHTML='<img src="deviation-box-icon.png?v=4" alt="収容箱">';
+   b.onclick=(e)=>{e.stopPropagation(); openDrawer(p.id)};
+   pinsEl.appendChild(b);
+ });
+ const done=pins.filter(p=>p.done).length, total=pins.length;
+ count.textContent=`${done}/${total}`; countBig.textContent=`${done}/${total}`;
+ if(selected) openDrawer(selected,false);
+}
+function openDrawer(id, animate=true){
+ selected=id; const p=pins.find(v=>v.id===id); if(!p)return;
+ drawer.innerHTML=`
+  <div class="drawerHeader"><h2>${p.name}</h2><button class="close" onclick="closeDrawer()">×</button></div>
+  <img class="shot" src="deviation-box.png?v=4" alt="スクリーンショット">
+  <label class="doneBox"><input type="checkbox" ${p.done?'checked':''} onchange="toggleDone('${p.id}')">回収済み</label>
+  <div class="row"><div class="label">デビ名</div><div class="value">${p.devi||'未確認'}</div></div>
+  <div class="row"><div class="label">座標</div><div class="value">${p.coord||'未登録'}</div></div>
+  <div class="row"><div class="label">説明</div><div class="value">${p.desc||'説明未登録'}</div></div>
+  <div class="drawerActions"><button class="btn" onclick="copyInfo('${p.id}')">情報コピー</button><button class="btn" onclick="closeDrawer()">閉じる</button></div>`;
+ drawer.classList.add('open');
+}
+window.closeDrawer=()=>{drawer.classList.remove('open');selected=null};
+window.toggleDone=(id)=>{const p=pins.find(v=>v.id===id); if(!p)return; p.done=!p.done; save(); render(); openDrawer(id,false); showToast(p.done?'回収済みにしました':'未回収に戻しました')};
+window.copyInfo=(id)=>{const p=pins.find(v=>v.id===id); const text=`${p.name}\nデビ名：${p.devi||'未確認'}\n座標：${p.coord||'未登録'}\n説明：${p.desc||''}`; navigator.clipboard?.writeText(text); showToast('コピーしました')};
+document.getElementById('showAll').onchange=e=>{if(e.target.checked)document.getElementById('showUndone').checked=false;render()};
+document.getElementById('showUndone').onchange=e=>{if(e.target.checked)document.getElementById('showAll').checked=false;render()};
+document.getElementById('fitBtn').onclick=fit;
+document.getElementById('resetBtn').onclick=()=>{if(confirm('回収チェックをリセットしますか？')){pins=DEFAULT_PINS.map(p=>({...p,done:false}));save();render();closeDrawer();showToast('リセットしました')}};
+function stageToMap(cx,cy){const r=stage.getBoundingClientRect();return{x:(cx-r.left-tx)/scale,y:(cy-r.top-ty)/scale}}
+let pointers=new Map(), startDist=0, startScale=1, startTx=0, startTy=0, startMid=null, dragging=false;
+stage.addEventListener('pointerdown',e=>{pointers.set(e.pointerId,{x:e.clientX,y:e.clientY}); stage.setPointerCapture(e.pointerId); dragging=true; startTx=tx; startTy=ty; if(pointers.size===2){const a=[...pointers.values()]; startDist=Math.hypot(a[0].x-a[1].x,a[0].y-a[1].y); startScale=scale; startMid={x:(a[0].x+a[1].x)/2,y:(a[0].y+a[1].y)/2};}});
+stage.addEventListener('pointermove',e=>{if(!pointers.has(e.pointerId))return; const old=pointers.get(e.pointerId); pointers.set(e.pointerId,{x:e.clientX,y:e.clientY}); const m=stageToMap(e.clientX,e.clientY); coord.textContent=`X: ${Math.round(m.x)} / Y: ${Math.round(m.y)}`; if(pointers.size===1 && dragging){tx+=e.clientX-old.x; ty+=e.clientY-old.y; apply();} if(pointers.size===2){const a=[...pointers.values()]; const d=Math.hypot(a[0].x-a[1].x,a[0].y-a[1].y); const ns=Math.max(.35,Math.min(4,startScale*d/startDist)); zoomAt(startMid.x,startMid.y,ns,false);}});
+function endPointer(e){pointers.delete(e.pointerId); dragging=false;} stage.addEventListener('pointerup',endPointer); stage.addEventListener('pointercancel',endPointer);
+function zoomAt(cx,cy,newScale,clamp=true){if(clamp)newScale=Math.max(.35,Math.min(4,newScale)); const r=stage.getBoundingClientRect(); const mx=(cx-r.left-tx)/scale, my=(cy-r.top-ty)/scale; scale=newScale; tx=cx-r.left-mx*scale; ty=cy-r.top-my*scale; apply();}
+document.getElementById('zin').onclick=()=>zoomAt(innerWidth/2,innerHeight/2,scale*1.25);
+document.getElementById('zout').onclick=()=>zoomAt(innerWidth/2,innerHeight/2,scale/1.25);
+stage.addEventListener('dblclick',e=>zoomAt(e.clientX,e.clientY,scale*1.6));
 render();
+if('serviceWorker' in navigator){navigator.serviceWorker.getRegistrations().then(rs=>rs.forEach(r=>r.update())); navigator.serviceWorker.register('sw.js?v=4').catch(()=>{});}
 </script>
-<script>if('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js').catch(()=>{});</script>
 </body>
 </html>
