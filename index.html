@@ -84,7 +84,7 @@ h1{margin:0;font-size:22px;line-height:1.08;letter-spacing:.02em}
 
 <main class="stage" id="stage">
   <div class="mapLayer" id="layer">
-    <img class="mapImg" id="mapImg" src="manibus-map.jpeg?v=6" alt="マニブスマップ">
+    <img class="mapImg" id="mapImg" src="./manibus-map.jpeg?v=6" alt="マニブスマップ">
     <div id="pins"></div>
   </div>
 
@@ -131,7 +131,7 @@ function fit(){
   tx=(r.width-w*scale)/2; ty=(r.height-h*scale)/2;
   apply();
 }
-img.onload=fit; window.addEventListener('resize',fit);
+img.onload=fit;if(img.complete) fit(); window.addEventListener('resize',fit);
 
 function counts(){
   const done=pins.filter(p=>p.done).length,total=pins.length;
