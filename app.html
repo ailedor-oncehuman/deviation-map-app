@@ -190,8 +190,7 @@ button{border:1px solid rgba(53,234,217,.45);border-radius:13px;background:rgba(
 <!-- Ver2.6 compact-volume-right -->
 <!-- Ver2.7 volume-size-fix -->
 <!-- Ver1.0 Final: volume fixed, gold/green pins, bottom line removed -->
-<!-- Ver1.0 Final volume real fixed -->
-<!-- Ver3.0 WebAudio volume fixed -->
+<!-- Ver1.0 Final minimal volume fix v31 -->
 </head>
 <body>
 <div class="app">
@@ -204,7 +203,7 @@ button{border:1px solid rgba(53,234,217,.45);border-radius:13px;background:rgba(
 
 <main id="stage" class="stage">
   <div id="layer" class="layer">
-    <img id="map" class="map" src="./manibus-map-clean.png?v=30" alt="">
+    <img id="map" class="map" src="./manibus-map-clean.png?v=31" alt="">
     <div id="pins"></div>
   </div>
 
@@ -235,7 +234,7 @@ const DEFAULT=[
 {id:'p5',no:'005',x:.56,y:.47,title:'デビエーション収容箱 No.005',region:'ローンウルフ荒野',place:'ブラックフェルタウン付近',coord:'4109,-1447',desc:'ブラックフェルタウンのワールドストーンを真っ直ぐ進んだ先にある大きな建物の左側の建物の中',image:'No005.png',done:false}
 ];
 
-const KEY='deviationMapPins_v30';
+const KEY='deviationMapPins_v31';
 let saved=JSON.parse(localStorage.getItem(KEY)||'null');
 let pins=(saved&&saved.length===5)?saved:DEFAULT.map(p=>({...p}));
 const stage=document.getElementById('stage'),layer=document.getElementById('layer'),map=document.getElementById('map'),pinsEl=document.getElementById('pins'),drawer=document.getElementById('drawer'),coord=document.getElementById('coord'),toast=document.getElementById('toast');
@@ -279,7 +278,7 @@ function render(){
     let b=document.createElement('button');
     b.className='pin'+(p.done?' done':'')+(edit?' edit':'');
     b.style.left=p.x*100+'%'; b.style.top=p.y*100+'%';
-    b.innerHTML=`<img src="deviation-box-icon.png?v=30"><span>No.${p.no}</span>`;
+    b.innerHTML=`<img src="deviation-box-icon.png?v=31"><span>No.${p.no}</span>`;
     b.addEventListener('pointerdown',e=>pinDown(e,p,b));
     b.onclick=e=>{e.stopPropagation(); if(!edit)openDrawer(p.id)};
     pinsEl.appendChild(b);
@@ -297,7 +296,7 @@ function openDrawer(id){
   selected=id;let p=pins.find(v=>v.id===id);
   drawer.innerHTML=`<div class="head"><h2>${p.title}</h2><button class="close" onclick="closeDrawer()">×</button></div>
   <div class="row"><div class="lab">状態</div><label class="doneBox"><input type="checkbox" ${p.done?'checked':''} onchange="toggleDone('${p.id}')">回収済み</label></div>
-  <img class="shot" src="${p.image}?v=30">
+  <img class="shot" src="${p.image}?v=31">
   <div class="row"><div class="lab">地域</div><div class="val">${p.region}</div></div>
   <div class="row"><div class="lab">場所</div><div class="val">${p.place}</div></div>
   <div class="row"><div class="lab">座標</div><div class="val">${p.coord}</div></div>
@@ -306,92 +305,13 @@ function openDrawer(id){
 }
 window.closeDrawer=()=>drawer.classList.remove('open');
 window.toggleDone=id=>{let p=pins.find(v=>v.id===id);p.done=!p.done;save();
-
-
-
-function updateVolumeUiFinal(){
-  if(typeof bgmVolume==='undefined'){ window.bgmVolume=35; }
-  if(window.volSlider){
-    volSlider.value=bgmVolume;
-    volSlider.oninput=()=>{
-      bgmVolume=Number(volSlider.value);
-      try{localStorage.setItem('deviationMapBgmVolume_v30',String(bgmVolume));}catch(e){}
-      if(window.volLabel) volLabel.textContent=bgmVolume+'%';
-      if(typeof bgmAudio!=='undefined' && bgmAudio) bgmAudio.volume=(document.getElementById('volSlider')?Number(document.getElementById('volSlider').value):Number(localStorage.getItem('deviationMapBgmVolume_v30')||35))/100;
-    };
-  }
-  if(window.volLabel) volLabel.textContent=bgmVolume+'%';
-}
-updateVolumeUiFinal();
-
-
-function applyVolumeSliderV24(){
-  const key='deviationMapBgmVolume_v30';
-  let v=Number(localStorage.getItem(key)||'35');
-  if(window.volSlider){
-    volSlider.value=v;
-    if(window.volLabel) volLabel.textContent=v+'%';
-    volSlider.oninput=()=>{
-      v=Number(volSlider.value);
-      localStorage.setItem(key,String(v));
-      if(window.volLabel) volLabel.textContent=v+'%';
-      try{ if(bgmAudio) bgmAudio.volume=(document.getElementById('volSlider')?Number(document.getElementById('volSlider').value):Number(localStorage.getItem('deviationMapBgmVolume_v30')||35))/100; }catch(e){}
-    };
-  }
-}
-applyVolumeSliderV24();
-
-
-function applyVolumeSliderV25(){
-  const key='deviationMapBgmVolume_v30';
-  let v=Number(localStorage.getItem(key)||'35');
-  if(window.volSlider){
-    volSlider.value=v;
-    if(window.volLabel) volLabel.textContent=v+'%';
-    volSlider.oninput=()=>{
-      v=Number(volSlider.value);
-      localStorage.setItem(key,String(v));
-      if(window.volLabel) volLabel.textContent=v+'%';
-      try{ if(bgmAudio) bgmAudio.volume=(document.getElementById('volSlider')?Number(document.getElementById('volSlider').value):Number(localStorage.getItem('deviationMapBgmVolume_v30')||35))/100; }catch(e){}
-    };
-  }
-}
-applyVolumeSliderV25();
-
-
-function bindVolumeSliderV27(){
-  const key='deviationMapBgmVolume_v30';
-  let saved=Number(localStorage.getItem(key)||localStorage.getItem('deviationMapBgmVolume_v30')||'35');
-  if(window.volSlider){
-    volSlider.value=saved;
-    if(window.volLabel) volLabel.textContent=saved+'%';
-    window.bgmVolume=saved;
-    volSlider.oninput=()=>{
-      const v=Number(volSlider.value);
-      window.bgmVolume=v;
-      localStorage.setItem(key,String(v));
-      if(window.volLabel) volLabel.textContent=v+'%';
-      try{
-        if(typeof bgmVolume!=='undefined') bgmVolume=v;
-        if(typeof bgmAudio!=='undefined' && bgmAudio) bgmAudio.volume=(document.getElementById('volSlider')?Number(document.getElementById('volSlider').value):Number(localStorage.getItem('deviationMapBgmVolume_v30')||35))/100;
-      }catch(e){}
-    };
-  }
-}
-bindVolumeSliderV27();
-
-
-// ===== Ver3.0 WebAudio BGM Volume Fix =====
-const bgmStateKey='deviationMapBgm_v30';
-const bgmVolumeKey='deviationMapBgmVolume_v30';
+// ===== Ver2.1 Final Audio =====
+const bgmStateKey='deviationMapBgm_v31';
+const bgmVolumeKey='deviationMapBgmVolume_v31';
+const bgmFiles={day:'day_bgm.mp3',night:'night_bgm.mp3'};
 let bgmMode=localStorage.getItem(bgmStateKey)||'off';
-let bgmVolume=Number(localStorage.getItem(bgmVolumeKey)||'35');
-
-let bgmCtx=null;
-let bgmGain=null;
-let bgmSource=null;
-let bgmBuffers={};
-let bgmStartTime=0;
+let bgmVolume=Number(localStorage.getItem(bgmVolumeKey) || '35');
+let bgmAudio=null;
 
 function setBgmButton(){
   if(!window.bgmBtn)return;
@@ -399,94 +319,51 @@ function setBgmButton(){
   else if(bgmMode==='night') bgmBtn.textContent='🌙 NIGHT';
   else bgmBtn.textContent='BGM OFF';
 }
-
 function setVolumeUi(){
-  if(window.volSlider) volSlider.value=bgmVolume;
-  if(window.volLabel) volLabel.textContent=bgmVolume+'%';
+  if(window.volSlider){volSlider.value=bgmVolume;}
+  if(window.volLabel){volLabel.textContent=bgmVolume+'%';}
 }
-
-async function ensureBgmContext(){
-  if(!bgmCtx){
-    bgmCtx=new (window.AudioContext||window.webkitAudioContext)();
-    bgmGain=bgmCtx.createGain();
-    bgmGain.gain.value=bgmVolume/100;
-    bgmGain.connect(bgmCtx.destination);
-  }
-  if(bgmCtx.state==='suspended') await bgmCtx.resume();
-}
-
-async function loadBgmBuffer(mode){
-  if(bgmBuffers[mode]) return bgmBuffers[mode];
-  const file=mode==='night'?'night_bgm.mp3':'day_bgm.mp3';
-  const res=await fetch(file,{cache:'reload'});
-  const arr=await res.arrayBuffer();
-  const buf=await bgmCtx.decodeAudioData(arr);
-  bgmBuffers[mode]=buf;
-  return buf;
-}
-
 function stopBgmOnly(){
-  if(bgmSource){
-    try{bgmSource.stop();}catch(e){}
-    try{bgmSource.disconnect();}catch(e){}
-    bgmSource=null;
+  if(bgmAudio){
+    bgmAudio.pause();
+    bgmAudio.currentTime=0;
+    bgmAudio=null;
   }
 }
-
-async function playBgm(mode){
-  await ensureBgmContext();
+function playBgm(mode){
   stopBgmOnly();
-
   if(mode==='off'){
     bgmMode='off';
     localStorage.setItem(bgmStateKey,bgmMode);
     setBgmButton();
     return;
   }
-
   bgmMode=mode;
+  bgmAudio=new Audio(bgmFiles[mode]);
+  bgmAudio.loop=true;
+  bgmAudio.volume=(document.getElementById('volSlider')?Number(document.getElementById('volSlider').value):35)/100;
+  bgmAudio.play().catch(()=>{});
   localStorage.setItem(bgmStateKey,bgmMode);
-
-  const buffer=await loadBgmBuffer(mode);
-  bgmSource=bgmCtx.createBufferSource();
-  bgmSource.buffer=buffer;
-  bgmSource.loop=true;
-  bgmSource.connect(bgmGain);
-  bgmGain.gain.setValueAtTime(bgmVolume/100,bgmCtx.currentTime);
-  bgmSource.start();
-  bgmStartTime=bgmCtx.currentTime;
   setBgmButton();
 }
-
 function cycleBgm(){
   if(bgmMode==='off') playBgm('day');
   else if(bgmMode==='day') playBgm('night');
   else playBgm('off');
 }
-
-function applyBgmVolume(){
-  const slider=document.getElementById('volSlider');
-  bgmVolume=Number(slider ? slider.value : bgmVolume);
-  localStorage.setItem(bgmVolumeKey,String(bgmVolume));
-  if(window.volLabel) volLabel.textContent=bgmVolume+'%';
-  if(bgmGain && bgmCtx){
-    bgmGain.gain.cancelScheduledValues(bgmCtx.currentTime);
-    bgmGain.gain.setValueAtTime(bgmVolume/100,bgmCtx.currentTime);
-  }
-}
-
 if(window.bgmBtn){
   bgmBtn.onclick=cycleBgm;
   setBgmButton();
 }
 if(window.volSlider){
   setVolumeUi();
-  volSlider.oninput=applyBgmVolume;
-  volSlider.onchange=applyBgmVolume;
-  volSlider.addEventListener('touchmove',applyBgmVolume,{passive:true});
-  volSlider.addEventListener('pointermove',applyBgmVolume);
+  volSlider.oninput=()=>{
+    bgmVolume=Number(volSlider.value);
+    localStorage.setItem(bgmVolumeKey,String(bgmVolume));
+    setVolumeUi();
+    if(bgmAudio) bgmAudio.volume=(document.getElementById('volSlider')?Number(document.getElementById('volSlider').value):35)/100;
+  };
 }
-
 function beep(freq=660,dur=0.08){
   try{
     const ctx=new (window.AudioContext||window.webkitAudioContext)();
@@ -501,17 +378,7 @@ function beep(freq=660,dur=0.08){
     setTimeout(()=>{osc.stop();ctx.close();},dur*1000);
   }catch(e){}
 }
-// ===== /Ver3.0 WebAudio BGM Volume Fix =====
-
-render();openDrawer(id)}
-
-panelBtn.onclick=()=>panel.classList.toggle('open');
-showAll.onchange=()=>{if(showAll.checked)showUndone.checked=false;render()};
-showUndone.onchange=()=>{if(showUndone.checked)showAll.checked=false;render()};
-editPins.onchange=render;
-document.getElementById('fit').onclick=()=>{beep(520,.06);fitMap()};
-reset.onclick=()=>{pins.forEach(p=>p.done=false);save();
-
+// ===== /Ver2.1 Final Audio =====
 
 
 function updateVolumeUiFinal(){
@@ -520,9 +387,9 @@ function updateVolumeUiFinal(){
     volSlider.value=bgmVolume;
     volSlider.oninput=()=>{
       bgmVolume=Number(volSlider.value);
-      try{localStorage.setItem('deviationMapBgmVolume_v30',String(bgmVolume));}catch(e){}
+      try{localStorage.setItem('deviationMapBgmVolume_v31',String(bgmVolume));}catch(e){}
       if(window.volLabel) volLabel.textContent=bgmVolume+'%';
-      if(typeof bgmAudio!=='undefined' && bgmAudio) bgmAudio.volume=(document.getElementById('volSlider')?Number(document.getElementById('volSlider').value):Number(localStorage.getItem('deviationMapBgmVolume_v30')||35))/100;
+      if(typeof bgmAudio!=='undefined' && bgmAudio) bgmAudio.volume=(document.getElementById('volSlider')?Number(document.getElementById('volSlider').value):35)/100;
     };
   }
   if(window.volLabel) volLabel.textContent=bgmVolume+'%';
@@ -531,7 +398,7 @@ updateVolumeUiFinal();
 
 
 function applyVolumeSliderV24(){
-  const key='deviationMapBgmVolume_v30';
+  const key='deviationMapBgmVolume_v31';
   let v=Number(localStorage.getItem(key)||'35');
   if(window.volSlider){
     volSlider.value=v;
@@ -540,7 +407,7 @@ function applyVolumeSliderV24(){
       v=Number(volSlider.value);
       localStorage.setItem(key,String(v));
       if(window.volLabel) volLabel.textContent=v+'%';
-      try{ if(bgmAudio) bgmAudio.volume=(document.getElementById('volSlider')?Number(document.getElementById('volSlider').value):Number(localStorage.getItem('deviationMapBgmVolume_v30')||35))/100; }catch(e){}
+      try{ if(bgmAudio) bgmAudio.volume=(document.getElementById('volSlider')?Number(document.getElementById('volSlider').value):35)/100; }catch(e){}
     };
   }
 }
@@ -548,7 +415,7 @@ applyVolumeSliderV24();
 
 
 function applyVolumeSliderV25(){
-  const key='deviationMapBgmVolume_v30';
+  const key='deviationMapBgmVolume_v31';
   let v=Number(localStorage.getItem(key)||'35');
   if(window.volSlider){
     volSlider.value=v;
@@ -557,7 +424,7 @@ function applyVolumeSliderV25(){
       v=Number(volSlider.value);
       localStorage.setItem(key,String(v));
       if(window.volLabel) volLabel.textContent=v+'%';
-      try{ if(bgmAudio) bgmAudio.volume=(document.getElementById('volSlider')?Number(document.getElementById('volSlider').value):Number(localStorage.getItem('deviationMapBgmVolume_v30')||35))/100; }catch(e){}
+      try{ if(bgmAudio) bgmAudio.volume=(document.getElementById('volSlider')?Number(document.getElementById('volSlider').value):35)/100; }catch(e){}
     };
   }
 }
@@ -565,8 +432,8 @@ applyVolumeSliderV25();
 
 
 function bindVolumeSliderV27(){
-  const key='deviationMapBgmVolume_v30';
-  let saved=Number(localStorage.getItem(key)||localStorage.getItem('deviationMapBgmVolume_v30')||'35');
+  const key='deviationMapBgmVolume_v31';
+  let saved=Number(localStorage.getItem(key)||localStorage.getItem('deviationMapBgmVolume_v31')||'35');
   if(window.volSlider){
     volSlider.value=saved;
     if(window.volLabel) volLabel.textContent=saved+'%';
@@ -578,7 +445,147 @@ function bindVolumeSliderV27(){
       if(window.volLabel) volLabel.textContent=v+'%';
       try{
         if(typeof bgmVolume!=='undefined') bgmVolume=v;
-        if(typeof bgmAudio!=='undefined' && bgmAudio) bgmAudio.volume=(document.getElementById('volSlider')?Number(document.getElementById('volSlider').value):Number(localStorage.getItem('deviationMapBgmVolume_v30')||35))/100;
+        if(typeof bgmAudio!=='undefined' && bgmAudio) bgmAudio.volume=(document.getElementById('volSlider')?Number(document.getElementById('volSlider').value):35)/100;
+      }catch(e){}
+    };
+  }
+}
+bindVolumeSliderV27();
+
+render();openDrawer(id)}
+
+panelBtn.onclick=()=>panel.classList.toggle('open');
+showAll.onchange=()=>{if(showAll.checked)showUndone.checked=false;render()};
+showUndone.onchange=()=>{if(showUndone.checked)showAll.checked=false;render()};
+editPins.onchange=render;
+document.getElementById('fit').onclick=()=>{beep(520,.06);fitMap()};
+reset.onclick=()=>{pins.forEach(p=>p.done=false);save();
+// ===== Ver2.0 Final Audio =====
+const bgmStateKey='deviationMapBgm_v20_final';
+const bgmFiles={day:'day_bgm.mp3',night:'night_bgm.mp3'};
+let bgmMode=localStorage.getItem(bgmStateKey)||'off';
+let bgmAudio=null;
+
+function setBgmButton(){
+  if(!window.bgmBtn)return;
+  if(bgmMode==='day') bgmBtn.textContent='☀️ DAY';
+  else if(bgmMode==='night') bgmBtn.textContent='🌙 NIGHT';
+  else bgmBtn.textContent='BGM OFF';
+}
+function stopBgmOnly(){
+  if(bgmAudio){
+    bgmAudio.pause();
+    bgmAudio.currentTime=0;
+    bgmAudio=null;
+  }
+}
+function playBgm(mode){
+  stopBgmOnly();
+  if(mode==='off'){
+    bgmMode='off';
+    localStorage.setItem(bgmStateKey,bgmMode);
+    setBgmButton();
+    return;
+  }
+  bgmMode=mode;
+  bgmAudio=new Audio(bgmFiles[mode]);
+  bgmAudio.loop=true;
+  bgmAudio.volume=(document.getElementById('volSlider')?Number(document.getElementById('volSlider').value):35)/100;
+  bgmAudio.play().catch(()=>{});
+  localStorage.setItem(bgmStateKey,bgmMode);
+  setBgmButton();
+}
+function cycleBgm(){
+  if(bgmMode==='off') playBgm('day');
+  else if(bgmMode==='day') playBgm('night');
+  else playBgm('off');
+}
+if(window.bgmBtn){
+  bgmBtn.onclick=cycleBgm;
+  setBgmButton();
+}
+function beep(freq=660,dur=0.08){
+  try{
+    const ctx=new (window.AudioContext||window.webkitAudioContext)();
+    const osc=ctx.createOscillator();
+    const gain=ctx.createGain();
+    osc.frequency.value=freq;
+    osc.type='sine';
+    gain.gain.value=0.035;
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    osc.start();
+    setTimeout(()=>{osc.stop();ctx.close();},dur*1000);
+  }catch(e){}
+}
+// ===== /Ver2.0 Final Audio =====
+
+
+function updateVolumeUiFinal(){
+  if(typeof bgmVolume==='undefined'){ window.bgmVolume=35; }
+  if(window.volSlider){
+    volSlider.value=bgmVolume;
+    volSlider.oninput=()=>{
+      bgmVolume=Number(volSlider.value);
+      try{localStorage.setItem('deviationMapBgmVolume_v31',String(bgmVolume));}catch(e){}
+      if(window.volLabel) volLabel.textContent=bgmVolume+'%';
+      if(typeof bgmAudio!=='undefined' && bgmAudio) bgmAudio.volume=(document.getElementById('volSlider')?Number(document.getElementById('volSlider').value):35)/100;
+    };
+  }
+  if(window.volLabel) volLabel.textContent=bgmVolume+'%';
+}
+updateVolumeUiFinal();
+
+
+function applyVolumeSliderV24(){
+  const key='deviationMapBgmVolume_v31';
+  let v=Number(localStorage.getItem(key)||'35');
+  if(window.volSlider){
+    volSlider.value=v;
+    if(window.volLabel) volLabel.textContent=v+'%';
+    volSlider.oninput=()=>{
+      v=Number(volSlider.value);
+      localStorage.setItem(key,String(v));
+      if(window.volLabel) volLabel.textContent=v+'%';
+      try{ if(bgmAudio) bgmAudio.volume=(document.getElementById('volSlider')?Number(document.getElementById('volSlider').value):35)/100; }catch(e){}
+    };
+  }
+}
+applyVolumeSliderV24();
+
+
+function applyVolumeSliderV25(){
+  const key='deviationMapBgmVolume_v31';
+  let v=Number(localStorage.getItem(key)||'35');
+  if(window.volSlider){
+    volSlider.value=v;
+    if(window.volLabel) volLabel.textContent=v+'%';
+    volSlider.oninput=()=>{
+      v=Number(volSlider.value);
+      localStorage.setItem(key,String(v));
+      if(window.volLabel) volLabel.textContent=v+'%';
+      try{ if(bgmAudio) bgmAudio.volume=(document.getElementById('volSlider')?Number(document.getElementById('volSlider').value):35)/100; }catch(e){}
+    };
+  }
+}
+applyVolumeSliderV25();
+
+
+function bindVolumeSliderV27(){
+  const key='deviationMapBgmVolume_v31';
+  let saved=Number(localStorage.getItem(key)||localStorage.getItem('deviationMapBgmVolume_v31')||'35');
+  if(window.volSlider){
+    volSlider.value=saved;
+    if(window.volLabel) volLabel.textContent=saved+'%';
+    window.bgmVolume=saved;
+    volSlider.oninput=()=>{
+      const v=Number(volSlider.value);
+      window.bgmVolume=v;
+      localStorage.setItem(key,String(v));
+      if(window.volLabel) volLabel.textContent=v+'%';
+      try{
+        if(typeof bgmVolume!=='undefined') bgmVolume=v;
+        if(typeof bgmAudio!=='undefined' && bgmAudio) bgmAudio.volume=(document.getElementById('volSlider')?Number(document.getElementById('volSlider').value):35)/100;
       }catch(e){}
     };
   }
@@ -616,7 +623,65 @@ function zoomAt(cx,cy,ns,clamp=true){
 zin.onclick=()=>zoomAt(innerWidth/2,innerHeight/2,scale*1.2);
 zout.onclick=()=>zoomAt(innerWidth/2,innerHeight/2,scale*.82);
 
+// ===== Ver2.0 Final Audio =====
+const bgmStateKey='deviationMapBgm_v20_final';
+const bgmFiles={day:'day_bgm.mp3',night:'night_bgm.mp3'};
+let bgmMode=localStorage.getItem(bgmStateKey)||'off';
+let bgmAudio=null;
 
+function setBgmButton(){
+  if(!window.bgmBtn)return;
+  if(bgmMode==='day') bgmBtn.textContent='☀️ DAY';
+  else if(bgmMode==='night') bgmBtn.textContent='🌙 NIGHT';
+  else bgmBtn.textContent='BGM OFF';
+}
+function stopBgmOnly(){
+  if(bgmAudio){
+    bgmAudio.pause();
+    bgmAudio.currentTime=0;
+    bgmAudio=null;
+  }
+}
+function playBgm(mode){
+  stopBgmOnly();
+  if(mode==='off'){
+    bgmMode='off';
+    localStorage.setItem(bgmStateKey,bgmMode);
+    setBgmButton();
+    return;
+  }
+  bgmMode=mode;
+  bgmAudio=new Audio(bgmFiles[mode]);
+  bgmAudio.loop=true;
+  bgmAudio.volume=(document.getElementById('volSlider')?Number(document.getElementById('volSlider').value):35)/100;
+  bgmAudio.play().catch(()=>{});
+  localStorage.setItem(bgmStateKey,bgmMode);
+  setBgmButton();
+}
+function cycleBgm(){
+  if(bgmMode==='off') playBgm('day');
+  else if(bgmMode==='day') playBgm('night');
+  else playBgm('off');
+}
+if(window.bgmBtn){
+  bgmBtn.onclick=cycleBgm;
+  setBgmButton();
+}
+function beep(freq=660,dur=0.08){
+  try{
+    const ctx=new (window.AudioContext||window.webkitAudioContext)();
+    const osc=ctx.createOscillator();
+    const gain=ctx.createGain();
+    osc.frequency.value=freq;
+    osc.type='sine';
+    gain.gain.value=0.035;
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    osc.start();
+    setTimeout(()=>{osc.stop();ctx.close();},dur*1000);
+  }catch(e){}
+}
+// ===== /Ver2.0 Final Audio =====
 
 
 function updateVolumeUiFinal(){
@@ -625,9 +690,9 @@ function updateVolumeUiFinal(){
     volSlider.value=bgmVolume;
     volSlider.oninput=()=>{
       bgmVolume=Number(volSlider.value);
-      try{localStorage.setItem('deviationMapBgmVolume_v30',String(bgmVolume));}catch(e){}
+      try{localStorage.setItem('deviationMapBgmVolume_v31',String(bgmVolume));}catch(e){}
       if(window.volLabel) volLabel.textContent=bgmVolume+'%';
-      if(typeof bgmAudio!=='undefined' && bgmAudio) bgmAudio.volume=(document.getElementById('volSlider')?Number(document.getElementById('volSlider').value):Number(localStorage.getItem('deviationMapBgmVolume_v30')||35))/100;
+      if(typeof bgmAudio!=='undefined' && bgmAudio) bgmAudio.volume=(document.getElementById('volSlider')?Number(document.getElementById('volSlider').value):35)/100;
     };
   }
   if(window.volLabel) volLabel.textContent=bgmVolume+'%';
@@ -636,7 +701,7 @@ updateVolumeUiFinal();
 
 
 function applyVolumeSliderV24(){
-  const key='deviationMapBgmVolume_v30';
+  const key='deviationMapBgmVolume_v31';
   let v=Number(localStorage.getItem(key)||'35');
   if(window.volSlider){
     volSlider.value=v;
@@ -645,7 +710,7 @@ function applyVolumeSliderV24(){
       v=Number(volSlider.value);
       localStorage.setItem(key,String(v));
       if(window.volLabel) volLabel.textContent=v+'%';
-      try{ if(bgmAudio) bgmAudio.volume=(document.getElementById('volSlider')?Number(document.getElementById('volSlider').value):Number(localStorage.getItem('deviationMapBgmVolume_v30')||35))/100; }catch(e){}
+      try{ if(bgmAudio) bgmAudio.volume=(document.getElementById('volSlider')?Number(document.getElementById('volSlider').value):35)/100; }catch(e){}
     };
   }
 }
@@ -653,7 +718,7 @@ applyVolumeSliderV24();
 
 
 function applyVolumeSliderV25(){
-  const key='deviationMapBgmVolume_v30';
+  const key='deviationMapBgmVolume_v31';
   let v=Number(localStorage.getItem(key)||'35');
   if(window.volSlider){
     volSlider.value=v;
@@ -662,7 +727,7 @@ function applyVolumeSliderV25(){
       v=Number(volSlider.value);
       localStorage.setItem(key,String(v));
       if(window.volLabel) volLabel.textContent=v+'%';
-      try{ if(bgmAudio) bgmAudio.volume=(document.getElementById('volSlider')?Number(document.getElementById('volSlider').value):Number(localStorage.getItem('deviationMapBgmVolume_v30')||35))/100; }catch(e){}
+      try{ if(bgmAudio) bgmAudio.volume=(document.getElementById('volSlider')?Number(document.getElementById('volSlider').value):35)/100; }catch(e){}
     };
   }
 }
@@ -670,8 +735,8 @@ applyVolumeSliderV25();
 
 
 function bindVolumeSliderV27(){
-  const key='deviationMapBgmVolume_v30';
-  let saved=Number(localStorage.getItem(key)||localStorage.getItem('deviationMapBgmVolume_v30')||'35');
+  const key='deviationMapBgmVolume_v31';
+  let saved=Number(localStorage.getItem(key)||localStorage.getItem('deviationMapBgmVolume_v31')||'35');
   if(window.volSlider){
     volSlider.value=saved;
     if(window.volLabel) volLabel.textContent=saved+'%';
@@ -683,7 +748,7 @@ function bindVolumeSliderV27(){
       if(window.volLabel) volLabel.textContent=v+'%';
       try{
         if(typeof bgmVolume!=='undefined') bgmVolume=v;
-        if(typeof bgmAudio!=='undefined' && bgmAudio) bgmAudio.volume=(document.getElementById('volSlider')?Number(document.getElementById('volSlider').value):Number(localStorage.getItem('deviationMapBgmVolume_v30')||35))/100;
+        if(typeof bgmAudio!=='undefined' && bgmAudio) bgmAudio.volume=(document.getElementById('volSlider')?Number(document.getElementById('volSlider').value):35)/100;
       }catch(e){}
     };
   }
@@ -697,7 +762,74 @@ if('serviceWorker' in navigator){navigator.serviceWorker.getRegistrations().then
 
 
 
+<script id="volume-minimal-fix-v31">
+(function(){
+  const key = 'deviationMapBgmVolume_v31';
 
+  function currentValue(){
+    const slider = document.getElementById('volSlider');
+    if(slider) return Number(slider.value || 35);
+    return Number(localStorage.getItem(key) || localStorage.getItem('deviationMapBgmVolume_v28') || localStorage.getItem('deviationMapBgmVolume_v27') || 35);
+  }
+
+  function applyVolume(){
+    const v = currentValue();
+    localStorage.setItem(key, String(v));
+
+    const label = document.getElementById('volLabel');
+    if(label) label.textContent = v + '%';
+
+    try{
+      if(typeof bgmVolume !== 'undefined') bgmVolume = v;
+    }catch(e){}
+
+    try{
+      if(typeof bgmAudio !== 'undefined' && bgmAudio){
+        bgmAudio.volume=(document.getElementById('volSlider')?Number(document.getElementById('volSlider').value):35)/100;
+      }
+    }catch(e){}
+
+    try{
+      if(window.bgmAudio){
+        window.bgmAudio.volume=(document.getElementById('volSlider')?Number(document.getElementById('volSlider').value):35)/100;
+      }
+    }catch(e){}
+
+    try{
+      document.querySelectorAll('audio').forEach(a => a.volume = v / 100);
+    }catch(e){}
+  }
+
+  function bind(){
+    const slider = document.getElementById('volSlider');
+    const saved = localStorage.getItem(key) || localStorage.getItem('deviationMapBgmVolume_v28') || localStorage.getItem('deviationMapBgmVolume_v27') || '35';
+
+    if(slider){
+      slider.value = saved;
+      slider.addEventListener('input', applyVolume);
+      slider.addEventListener('change', applyVolume);
+      slider.addEventListener('touchend', applyVolume);
+      slider.addEventListener('pointerup', applyVolume);
+    }
+
+    applyVolume();
+  }
+
+  if(document.readyState === 'loading'){
+    document.addEventListener('DOMContentLoaded', bind);
+  }else{
+    bind();
+  }
+
+  // DAY/NIGHT切替直後に新しいAudioが作られた場合も、数秒だけ再適用する
+  let count = 0;
+  const timer = setInterval(function(){
+    applyVolume();
+    count++;
+    if(count > 20) clearInterval(timer);
+  }, 300);
+})();
+</script>
 
 </body>
 </html>
