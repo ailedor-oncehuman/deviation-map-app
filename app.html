@@ -51,7 +51,7 @@ button{border:1px solid rgba(53,234,217,.45);border-radius:13px;background:rgba(
 <body>
 <div class="app">
 <header>
-  <div class="title"><h1>デビエーション収容箱マップ</h1><div class="sub">MANIBUS BASE MAP / Ver1.6 clamp</div></div>
+  <div class="title"><h1>デビエーション収容箱マップ</h1><div class="sub">MANIBUS BASE MAP / Ver1.7 fit</div></div>
   <div class="pill"><small>回収率</small><b id="countTop">0/5</b></div>
   <button class="topbtn" id="fit">全体表示</button>
   <button class="topbtn" id="reset">リセット</button>
@@ -59,7 +59,7 @@ button{border:1px solid rgba(53,234,217,.45);border-radius:13px;background:rgba(
 
 <main id="stage" class="stage">
   <div id="layer" class="layer">
-    <img id="map" class="map" src="./manibus-map-clean.png?v=16" alt="">
+    <img id="map" class="map" src="./manibus-map-clean.png?v=17" alt="">
     <div id="pins"></div>
   </div>
 
@@ -75,7 +75,7 @@ button{border:1px solid rgba(53,234,217,.45);border-radius:13px;background:rgba(
 
   <div class="zoom"><button id="zin">＋</button><button id="zout">−</button></div>
   <div id="coord" class="coord">X: 0 / Y: 0</div>
-  <div class="ver">Version 1.6</div>
+  <div class="ver">Version 1.7</div>
   <aside id="drawer" class="drawer"></aside>
   <div id="toast" class="toast">保存しました</div>
 </main>
@@ -90,7 +90,7 @@ const DEFAULT=[
 {id:'p5',no:'005',x:.56,y:.47,title:'デビエーション収容箱 No.005',region:'ローンウルフ荒野',place:'ブラックフェルタウン付近',coord:'4109,-1447',desc:'ブラックフェルタウンのワールドストーンを真っ直ぐ進んだ先にある大きな建物の左側の建物の中',image:'No005.png',done:false}
 ];
 
-const KEY='deviationMapPins_v16';
+const KEY='deviationMapPins_v17';
 let saved=JSON.parse(localStorage.getItem(KEY)||'null');
 let pins=(saved&&saved.length===5)?saved:DEFAULT.map(p=>({...p}));
 const stage=document.getElementById('stage'),layer=document.getElementById('layer'),map=document.getElementById('map'),pinsEl=document.getElementById('pins'),drawer=document.getElementById('drawer'),coord=document.getElementById('coord'),toast=document.getElementById('toast');
@@ -102,7 +102,7 @@ function clampPan(){
   const r=stage.getBoundingClientRect();
   const w=(map.naturalWidth||1100)*scale;
   const h=(map.naturalHeight||1000)*scale;
-  const margin=90;
+  const margin=120;
   if(w<=r.width){
     tx=(r.width-w)/2;
   }else{
@@ -115,7 +115,14 @@ function clampPan(){
   }
 }
 function apply(){clampPan();layer.style.transform=`translate(${tx}px,${ty}px) scale(${scale})`}
-function fit(){const r=stage.getBoundingClientRect(),w=map.naturalWidth||1100,h=map.naturalHeight||1000;scale=Math.min(r.width/w,r.height/h)*.94;tx=(r.width-w*scale)/2;ty=(r.height-h*scale)/2;apply()}
+function fit(){
+  const r=stage.getBoundingClientRect(),w=map.naturalWidth||1100,h=map.naturalHeight||1000;
+  // 横幅いっぱい寄りで表示。縮小しすぎないようにする。
+  scale=Math.min(r.width/w*1.18,r.height/h*1.18);
+  tx=(r.width-w*scale)/2;
+  ty=Math.max(18,(r.height-h*scale)/2);
+  apply();
+}
 map.onload=fit;if(map.complete)fit();window.addEventListener('resize',fit);
 
 function counts(){let d=pins.filter(p=>p.done).length,t=pins.length;countTop.textContent=countBig.textContent=`${d}/${t}`}
@@ -127,7 +134,7 @@ function render(){
     let b=document.createElement('button');
     b.className='pin'+(p.done?' done':'')+(edit?' edit':'');
     b.style.left=p.x*100+'%'; b.style.top=p.y*100+'%';
-    b.innerHTML=`<img src="deviation-box-icon.png?v=16"><span>No.${p.no}</span>`;
+    b.innerHTML=`<img src="deviation-box-icon.png?v=17"><span>No.${p.no}</span>`;
     b.addEventListener('pointerdown',e=>pinDown(e,p,b));
     b.onclick=e=>{e.stopPropagation(); if(!edit)openDrawer(p.id)};
     pinsEl.appendChild(b);
@@ -145,7 +152,7 @@ function openDrawer(id){
   selected=id;let p=pins.find(v=>v.id===id);
   drawer.innerHTML=`<div class="head"><h2>${p.title}</h2><button class="close" onclick="closeDrawer()">×</button></div>
   <div class="row"><div class="lab">状態</div><label class="doneBox"><input type="checkbox" ${p.done?'checked':''} onchange="toggleDone('${p.id}')">回収済み</label></div>
-  <img class="shot" src="${p.image}?v=16">
+  <img class="shot" src="${p.image}?v=17">
   <div class="row"><div class="lab">地域</div><div class="val">${p.region}</div></div>
   <div class="row"><div class="lab">場所</div><div class="val">${p.place}</div></div>
   <div class="row"><div class="lab">座標</div><div class="val">${p.coord}</div></div>
