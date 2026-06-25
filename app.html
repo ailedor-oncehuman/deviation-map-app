@@ -40,7 +40,7 @@ button{border:1px solid rgba(53,234,217,.45);border-radius:13px;background:rgba(
 .row{border-top:1px solid rgba(255,255,255,.12);padding:12px 0}.lab{color:#a9bdc3;font-size:13px}.val{font-size:18px;line-height:1.45}
 .doneBox{margin-top:6px;border:1px solid rgba(53,234,217,.35);border-radius:10px;padding:6px 10px;display:inline-flex;gap:8px;align-items:center;font-size:17px;font-weight:900;background:rgba(32,210,190,.1)}
 .doneBox input{width:22px;height:22px;accent-color:#35ead9}
-#bgmBtn{width:100%;min-width:0;white-space:nowrap}
+
 .toast{position:absolute;left:50%;bottom:24px;transform:translateX(-50%) translateY(80px);background:#092c2f;border:1px solid rgba(53,234,217,.45);border-radius:999px;padding:10px 18px;z-index:60;transition:.2s;font-weight:800}.toast.show{transform:translateX(-50%) translateY(0)}
 @media(max-width:720px){
  header{height:160px;grid-template-columns:1fr 1fr 1fr 1fr}
@@ -48,7 +48,7 @@ button{border:1px solid rgba(53,234,217,.45);border-radius:13px;background:rgba(
  .pill{grid-column:auto}
  .topbtn{width:100%;min-width:0;padding:9px 4px;font-size:13px}
  #bgmBtn{width:100%;min-width:0}
- .headerVol{grid-column:3/5;width:100%;min-width:0;max-width:none;justify-self:end;padding:4px 8px}
+ .headerVol{grid-column:4/5;width:100%;min-width:0;max-width:none;justify-self:stretch;padding:4px 8px}
  .headerVol input{height:12px}
  .stage{height:calc(100vh - 160px)}
  .map{width:1060px}
@@ -62,23 +62,31 @@ button{border:1px solid rgba(53,234,217,.45);border-radius:13px;background:rgba(
 .volBox label{display:flex;justify-content:space-between;margin-bottom:4px}
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 #bgmBtn{width:100%;min-width:0;white-space:nowrap}
-
-
-
-
-
-
 .headerVol{
-  grid-column:3/5;
-  justify-self:end;
-  width:48%;
-  min-width:178px;
-  max-width:250px;
+  grid-column:4/5;
+  justify-self:stretch;
+  width:100%;
+  min-width:0;
+  max-width:none;
   border:1px solid rgba(53,234,217,.35);
-  border-radius:11px;
+  border-radius:13px;
   background:rgba(3,18,20,.52);
-  padding:5px 8px;
+  padding:4px 8px;
   font-size:11px;
   font-weight:900;
   color:#eaffff;
@@ -87,7 +95,8 @@ button{border:1px solid rgba(53,234,217,.45);border-radius:13px;background:rgba(
   display:flex;
   justify-content:space-between;
   align-items:center;
-  margin-bottom:1px;
+  margin-bottom:0;
+  line-height:1.1;
 }
 .headerVol label:before{
   content:"🔊";
@@ -96,12 +105,13 @@ button{border:1px solid rgba(53,234,217,.45);border-radius:13px;background:rgba(
 .headerVol input{
   display:block;
   width:100%;
-  height:14px;
+  height:12px;
   accent-color:#35ead9;
 }
 #volSlider{
   display:block;
   width:100%;
+  height:12px;
   accent-color:#35ead9;
 }
 
@@ -109,6 +119,7 @@ button{border:1px solid rgba(53,234,217,.45);border-radius:13px;background:rgba(
 <!-- Ver2.4 background-slider-fixed -->
 <!-- Ver2.5 visible-background-header-volume -->
 <!-- Ver2.6 compact-volume-right -->
+<!-- Ver2.7 volume-size-fix -->
 </head>
 <body>
 <div class="app">
@@ -121,7 +132,7 @@ button{border:1px solid rgba(53,234,217,.45);border-radius:13px;background:rgba(
 
 <main id="stage" class="stage">
   <div id="layer" class="layer">
-    <img id="map" class="map" src="./manibus-map-clean.png?v=26" alt="">
+    <img id="map" class="map" src="./manibus-map-clean.png?v=27" alt="">
     <div id="pins"></div>
   </div>
 
@@ -132,11 +143,7 @@ button{border:1px solid rgba(53,234,217,.45);border-radius:13px;background:rgba(
     <label class="chk"><input id="showAll" type="checkbox" checked>すべて</label>
     <label class="chk"><input id="showUndone" type="checkbox">未回収のみ</label>
     <label class="chk"><input id="editPins" type="checkbox">ピン位置調整</label>
-    <div class="volBox">
-  <label>音量 <span id="volLabel">35%</span></label>
-  <input id="volSlider" type="range" min="0" max="100" value="35">
-</div>
-<div class="hint">フィルター・データ管理は今後追加予定<br>ONでピンを動かせます</div>
+    
   </section>
 
   <div class="zoom"><button id="zin">＋</button><button id="zout">−</button></div>
@@ -156,7 +163,7 @@ const DEFAULT=[
 {id:'p5',no:'005',x:.56,y:.47,title:'デビエーション収容箱 No.005',region:'ローンウルフ荒野',place:'ブラックフェルタウン付近',coord:'4109,-1447',desc:'ブラックフェルタウンのワールドストーンを真っ直ぐ進んだ先にある大きな建物の左側の建物の中',image:'No005.png',done:false}
 ];
 
-const KEY='deviationMapPins_v26';
+const KEY='deviationMapPins_v27';
 let saved=JSON.parse(localStorage.getItem(KEY)||'null');
 let pins=(saved&&saved.length===5)?saved:DEFAULT.map(p=>({...p}));
 const stage=document.getElementById('stage'),layer=document.getElementById('layer'),map=document.getElementById('map'),pinsEl=document.getElementById('pins'),drawer=document.getElementById('drawer'),coord=document.getElementById('coord'),toast=document.getElementById('toast');
@@ -200,7 +207,7 @@ function render(){
     let b=document.createElement('button');
     b.className='pin'+(p.done?' done':'')+(edit?' edit':'');
     b.style.left=p.x*100+'%'; b.style.top=p.y*100+'%';
-    b.innerHTML=`<img src="deviation-box-icon.png?v=26"><span>No.${p.no}</span>`;
+    b.innerHTML=`<img src="deviation-box-icon.png?v=27"><span>No.${p.no}</span>`;
     b.addEventListener('pointerdown',e=>pinDown(e,p,b));
     b.onclick=e=>{e.stopPropagation(); if(!edit)openDrawer(p.id)};
     pinsEl.appendChild(b);
@@ -218,7 +225,7 @@ function openDrawer(id){
   selected=id;let p=pins.find(v=>v.id===id);
   drawer.innerHTML=`<div class="head"><h2>${p.title}</h2><button class="close" onclick="closeDrawer()">×</button></div>
   <div class="row"><div class="lab">状態</div><label class="doneBox"><input type="checkbox" ${p.done?'checked':''} onchange="toggleDone('${p.id}')">回収済み</label></div>
-  <img class="shot" src="${p.image}?v=26">
+  <img class="shot" src="${p.image}?v=27">
   <div class="row"><div class="lab">地域</div><div class="val">${p.region}</div></div>
   <div class="row"><div class="lab">場所</div><div class="val">${p.place}</div></div>
   <div class="row"><div class="lab">座標</div><div class="val">${p.coord}</div></div>
@@ -228,8 +235,8 @@ function openDrawer(id){
 window.closeDrawer=()=>drawer.classList.remove('open');
 window.toggleDone=id=>{let p=pins.find(v=>v.id===id);p.done=!p.done;save();
 // ===== Ver2.1 Final Audio =====
-const bgmStateKey='deviationMapBgm_v26';
-const bgmVolumeKey='deviationMapBgmVolume_v26';
+const bgmStateKey='deviationMapBgm_v27';
+const bgmVolumeKey='deviationMapBgmVolume_v27';
 const bgmFiles={day:'day_bgm.mp3',night:'night_bgm.mp3'};
 let bgmMode=localStorage.getItem(bgmStateKey)||'off';
 let bgmVolume=Number(localStorage.getItem(bgmVolumeKey) || '35');
@@ -263,7 +270,7 @@ function playBgm(mode){
   bgmMode=mode;
   bgmAudio=new Audio(bgmFiles[mode]);
   bgmAudio.loop=true;
-  bgmAudio.volume=bgmVolume/100;
+  bgmAudio.volume=(window.volSlider?Number(volSlider.value):(bgmVolume||35))/100;
   bgmAudio.play().catch(()=>{});
   localStorage.setItem(bgmStateKey,bgmMode);
   setBgmButton();
@@ -283,7 +290,7 @@ if(window.volSlider){
     bgmVolume=Number(volSlider.value);
     localStorage.setItem(bgmVolumeKey,String(bgmVolume));
     setVolumeUi();
-    if(bgmAudio) bgmAudio.volume=bgmVolume/100;
+    if(bgmAudio) bgmAudio.volume=(window.volSlider?Number(volSlider.value):(bgmVolume||35))/100;
   };
 }
 function beep(freq=660,dur=0.08){
@@ -309,9 +316,9 @@ function updateVolumeUiFinal(){
     volSlider.value=bgmVolume;
     volSlider.oninput=()=>{
       bgmVolume=Number(volSlider.value);
-      try{localStorage.setItem('deviationMapBgmVolume_v26',String(bgmVolume));}catch(e){}
+      try{localStorage.setItem('deviationMapBgmVolume_v27',String(bgmVolume));}catch(e){}
       if(window.volLabel) volLabel.textContent=bgmVolume+'%';
-      if(typeof bgmAudio!=='undefined' && bgmAudio) bgmAudio.volume=bgmVolume/100;
+      if(typeof bgmAudio!=='undefined' && bgmAudio) bgmAudio.volume=(window.volSlider?Number(volSlider.value):(bgmVolume||35))/100;
     };
   }
   if(window.volLabel) volLabel.textContent=bgmVolume+'%';
@@ -320,7 +327,7 @@ updateVolumeUiFinal();
 
 
 function applyVolumeSliderV24(){
-  const key='deviationMapBgmVolume_v26';
+  const key='deviationMapBgmVolume_v27';
   let v=Number(localStorage.getItem(key)||'35');
   if(window.volSlider){
     volSlider.value=v;
@@ -337,7 +344,7 @@ applyVolumeSliderV24();
 
 
 function applyVolumeSliderV25(){
-  const key='deviationMapBgmVolume_v26';
+  const key='deviationMapBgmVolume_v27';
   let v=Number(localStorage.getItem(key)||'35');
   if(window.volSlider){
     volSlider.value=v;
@@ -351,6 +358,28 @@ function applyVolumeSliderV25(){
   }
 }
 applyVolumeSliderV25();
+
+
+function bindVolumeSliderV27(){
+  const key='deviationMapBgmVolume_v27';
+  let saved=Number(localStorage.getItem(key)||localStorage.getItem('deviationMapBgmVolume_v26')||'35');
+  if(window.volSlider){
+    volSlider.value=saved;
+    if(window.volLabel) volLabel.textContent=saved+'%';
+    window.bgmVolume=saved;
+    volSlider.oninput=()=>{
+      const v=Number(volSlider.value);
+      window.bgmVolume=v;
+      localStorage.setItem(key,String(v));
+      if(window.volLabel) volLabel.textContent=v+'%';
+      try{
+        if(typeof bgmVolume!=='undefined') bgmVolume=v;
+        if(typeof bgmAudio!=='undefined' && bgmAudio) bgmAudio.volume=v/100;
+      }catch(e){}
+    };
+  }
+}
+bindVolumeSliderV27();
 
 render();openDrawer(id)}
 
@@ -427,9 +456,9 @@ function updateVolumeUiFinal(){
     volSlider.value=bgmVolume;
     volSlider.oninput=()=>{
       bgmVolume=Number(volSlider.value);
-      try{localStorage.setItem('deviationMapBgmVolume_v26',String(bgmVolume));}catch(e){}
+      try{localStorage.setItem('deviationMapBgmVolume_v27',String(bgmVolume));}catch(e){}
       if(window.volLabel) volLabel.textContent=bgmVolume+'%';
-      if(typeof bgmAudio!=='undefined' && bgmAudio) bgmAudio.volume=bgmVolume/100;
+      if(typeof bgmAudio!=='undefined' && bgmAudio) bgmAudio.volume=(window.volSlider?Number(volSlider.value):(bgmVolume||35))/100;
     };
   }
   if(window.volLabel) volLabel.textContent=bgmVolume+'%';
@@ -438,7 +467,7 @@ updateVolumeUiFinal();
 
 
 function applyVolumeSliderV24(){
-  const key='deviationMapBgmVolume_v26';
+  const key='deviationMapBgmVolume_v27';
   let v=Number(localStorage.getItem(key)||'35');
   if(window.volSlider){
     volSlider.value=v;
@@ -455,7 +484,7 @@ applyVolumeSliderV24();
 
 
 function applyVolumeSliderV25(){
-  const key='deviationMapBgmVolume_v26';
+  const key='deviationMapBgmVolume_v27';
   let v=Number(localStorage.getItem(key)||'35');
   if(window.volSlider){
     volSlider.value=v;
@@ -469,6 +498,28 @@ function applyVolumeSliderV25(){
   }
 }
 applyVolumeSliderV25();
+
+
+function bindVolumeSliderV27(){
+  const key='deviationMapBgmVolume_v27';
+  let saved=Number(localStorage.getItem(key)||localStorage.getItem('deviationMapBgmVolume_v26')||'35');
+  if(window.volSlider){
+    volSlider.value=saved;
+    if(window.volLabel) volLabel.textContent=saved+'%';
+    window.bgmVolume=saved;
+    volSlider.oninput=()=>{
+      const v=Number(volSlider.value);
+      window.bgmVolume=v;
+      localStorage.setItem(key,String(v));
+      if(window.volLabel) volLabel.textContent=v+'%';
+      try{
+        if(typeof bgmVolume!=='undefined') bgmVolume=v;
+        if(typeof bgmAudio!=='undefined' && bgmAudio) bgmAudio.volume=v/100;
+      }catch(e){}
+    };
+  }
+}
+bindVolumeSliderV27();
 
 render();msg('リセットしました')};
 
@@ -568,9 +619,9 @@ function updateVolumeUiFinal(){
     volSlider.value=bgmVolume;
     volSlider.oninput=()=>{
       bgmVolume=Number(volSlider.value);
-      try{localStorage.setItem('deviationMapBgmVolume_v26',String(bgmVolume));}catch(e){}
+      try{localStorage.setItem('deviationMapBgmVolume_v27',String(bgmVolume));}catch(e){}
       if(window.volLabel) volLabel.textContent=bgmVolume+'%';
-      if(typeof bgmAudio!=='undefined' && bgmAudio) bgmAudio.volume=bgmVolume/100;
+      if(typeof bgmAudio!=='undefined' && bgmAudio) bgmAudio.volume=(window.volSlider?Number(volSlider.value):(bgmVolume||35))/100;
     };
   }
   if(window.volLabel) volLabel.textContent=bgmVolume+'%';
@@ -579,7 +630,7 @@ updateVolumeUiFinal();
 
 
 function applyVolumeSliderV24(){
-  const key='deviationMapBgmVolume_v26';
+  const key='deviationMapBgmVolume_v27';
   let v=Number(localStorage.getItem(key)||'35');
   if(window.volSlider){
     volSlider.value=v;
@@ -596,7 +647,7 @@ applyVolumeSliderV24();
 
 
 function applyVolumeSliderV25(){
-  const key='deviationMapBgmVolume_v26';
+  const key='deviationMapBgmVolume_v27';
   let v=Number(localStorage.getItem(key)||'35');
   if(window.volSlider){
     volSlider.value=v;
@@ -610,6 +661,28 @@ function applyVolumeSliderV25(){
   }
 }
 applyVolumeSliderV25();
+
+
+function bindVolumeSliderV27(){
+  const key='deviationMapBgmVolume_v27';
+  let saved=Number(localStorage.getItem(key)||localStorage.getItem('deviationMapBgmVolume_v26')||'35');
+  if(window.volSlider){
+    volSlider.value=saved;
+    if(window.volLabel) volLabel.textContent=saved+'%';
+    window.bgmVolume=saved;
+    volSlider.oninput=()=>{
+      const v=Number(volSlider.value);
+      window.bgmVolume=v;
+      localStorage.setItem(key,String(v));
+      if(window.volLabel) volLabel.textContent=v+'%';
+      try{
+        if(typeof bgmVolume!=='undefined') bgmVolume=v;
+        if(typeof bgmAudio!=='undefined' && bgmAudio) bgmAudio.volume=v/100;
+      }catch(e){}
+    };
+  }
+}
+bindVolumeSliderV27();
 
 render();
 if('serviceWorker' in navigator){navigator.serviceWorker.getRegistrations().then(rs=>rs.forEach(r=>r.unregister())).catch(()=>{})}
