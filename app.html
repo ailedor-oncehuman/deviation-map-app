@@ -6,59 +6,62 @@
 <title>デビエーション収容箱マップ</title>
 <style>
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-html,body{margin:0;height:100%;overflow:hidden;background:#061011;color:#fff;font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Yu Gothic",sans-serif}
-header{height:92px;display:grid;grid-template-columns:1fr auto auto auto;gap:8px;align-items:center;padding:10px;background:#031012;border-bottom:1px solid rgba(53,234,217,.35);z-index:20}
-h1{font-size:18px;margin:0;line-height:1.15}.sub{font-size:11px;color:#a9bdc3}.pill{border:1px solid rgba(53,234,217,.5);border-radius:14px;padding:7px 10px;text-align:center;background:rgba(35,120,115,.25);min-width:78px}.pill small{display:block;color:#a9bdc3}.pill b{font-size:24px}
-button{border:1px solid rgba(53,234,217,.45);border-radius:12px;background:rgba(5,30,32,.85);color:#fff;font-weight:800}.topbtn{padding:10px 12px}
-.stage{position:relative;height:calc(100vh - 92px);overflow:hidden;touch-action:none}
-.layer{position:absolute;left:0;top:0;transform-origin:0 0}.map{width:1100px;max-width:none;display:block;user-select:none;pointer-events:none}
-#pins{position:absolute;inset:0}.pin{position:absolute;width:58px;height:58px;padding:0;border:0;background:transparent;transform:translate(-50%,-50%);filter:drop-shadow(0 0 9px #35ead9);touch-action:none}
-.pin img{width:58px;height:58px;object-fit:cover;border:2px solid #35ead9;border-radius:10px;background:#001b1d}.pin.done img{border-color:#72ffbd}.pin.done:after{content:"✓";position:absolute;right:-5px;top:-7px;border-radius:50%;background:#35ead9;color:#042;width:24px;height:24px;display:grid;place-items:center;font-weight:900}
-.pin.edit img{border-color:#ffd36a;box-shadow:0 0 16px #ffd36a}.pin span{position:absolute;left:50%;top:50px;transform:translateX(-50%);white-space:nowrap;background:rgba(0,20,22,.9);border:1px solid rgba(53,234,217,.45);border-radius:8px;padding:2px 6px;font-size:11px;font-weight:900}
-.floating{position:absolute;left:12px;top:12px;z-index:20;display:flex;gap:8px}
-.floating button{padding:9px 12px;border-radius:999px}
-.panel{display:none;position:absolute;left:12px;top:58px;width:160px;max-width:calc(100vw - 24px);z-index:30;background:rgba(3,18,20,.55);border:1px solid rgba(53,234,217,.35);border-radius:12px;padding:8px;backdrop-filter:blur(5px)}
-.panel.open{display:block}.panel h2{font-size:12px;margin:0 0 4px}.big{font-size:20px;font-weight:900}.chk{display:flex;gap:5px;align-items:center;margin:5px 0;font-weight:800;font-size:12px}.chk input{width:18px;height:18px;accent-color:#35ead9}.hint{font-size:10px;line-height:1.35;color:#d9f2f4}.editbox{border:1px solid rgba(255,211,106,.5);border-radius:9px;padding:5px;margin-top:5px}
+html,body{margin:0;height:100%;overflow:hidden;background:#041011;color:#f4ffff;font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Yu Gothic",sans-serif}
+.app{height:100%;display:flex;flex-direction:column}
+header{height:92px;display:grid;grid-template-columns:1fr auto auto;gap:10px;align-items:center;padding:10px;background:#031012;border-bottom:1px solid rgba(53,234,217,.35);z-index:20}
+h1{font-size:22px;line-height:1.08;margin:0}.sub{margin-top:4px;color:#a9bdc3;font-size:13px;letter-spacing:.08em}
+.pill{border:1px solid rgba(53,234,217,.5);border-radius:15px;padding:7px 12px;text-align:center;background:rgba(35,120,115,.25);min-width:88px}
+.pill small{display:block;color:#a9bdc3;font-weight:900}.pill b{font-size:30px}
+button{border:1px solid rgba(53,234,217,.45);border-radius:13px;background:rgba(5,30,32,.86);color:#fff;font-weight:900}
+.topbtn{padding:13px 15px;font-size:16px}
+.stage{position:relative;flex:1;overflow:hidden;touch-action:none;background:#020b0c}
+.layer{position:absolute;left:0;top:0;transform-origin:0 0}
+.map{width:1100px;max-width:none;display:block;user-select:none;pointer-events:none}
+#pins{position:absolute;inset:0}.pin{position:absolute;transform:translate(-50%,-50%);padding:0;border:0;background:transparent;filter:drop-shadow(0 0 9px #35ead9);touch-action:none}
+.pin img{width:58px;height:58px;object-fit:cover;border:2px solid #35ead9;border-radius:10px;background:#001b1d}
+.pin.done img{border-color:#72ffbd}.pin:after{content:"";position:absolute;right:-5px;top:-7px;border-radius:50%;background:#35ead9;color:#042;width:24px;height:24px;display:grid;place-items:center;font-weight:900}
+.pin.done:after{content:"✓"}.pin span{position:absolute;left:50%;top:52px;transform:translateX(-50%);white-space:nowrap;background:rgba(0,20,22,.92);border:1px solid rgba(53,234,217,.45);border-radius:8px;padding:2px 7px;font-size:11px;font-weight:900}
+.floating{position:absolute;left:12px;top:12px;z-index:25}.floating button{padding:9px 13px;border-radius:999px;font-size:14px}
+.panel{display:none;position:absolute;left:12px;top:58px;width:160px;z-index:30;background:rgba(3,18,20,.55);border:1px solid rgba(53,234,217,.35);border-radius:12px;padding:8px;backdrop-filter:blur(5px)}
+.panel.open{display:block}.panel h2{font-size:12px;margin:0 0 4px}.big{font-size:20px;font-weight:900}.chk{display:flex;gap:5px;align-items:center;margin:5px 0;font-weight:800;font-size:12px}.chk input{width:18px;height:18px;accent-color:#35ead9}
+.hint{font-size:10px;line-height:1.35;color:#d9f2f4}
 .zoom{position:absolute;right:12px;top:50%;transform:translateY(-50%);z-index:15;display:flex;flex-direction:column;gap:10px}.zoom button{width:56px;height:56px;font-size:34px}
-.coord{position:absolute;left:14px;bottom:18px;border:1px solid rgba(53,234,217,.4);border-radius:14px;background:rgba(4,22,25,.85);padding:10px 16px;font-weight:900;color:#cffff9;z-index:15}.ver{position:absolute;right:16px;bottom:20px;color:rgba(255,255,255,.55);z-index:15}
+.coord{position:absolute;left:14px;bottom:18px;border:1px solid rgba(53,234,217,.4);border-radius:14px;background:rgba(4,22,25,.85);padding:10px 16px;font-weight:900;color:#cffff9;z-index:15}
+.ver{position:absolute;right:16px;bottom:20px;color:rgba(255,255,255,.55);z-index:15}
 .drawer{position:absolute;left:14px;right:14px;bottom:14px;max-height:72%;overflow:auto;z-index:40;background:rgba(3,15,17,.94);border:1px solid rgba(53,234,217,.35);border-radius:20px;padding:18px;transform:translateY(115%);transition:.22s;backdrop-filter:blur(10px)}
-.drawer.open{transform:translateY(0)}.drawer h2{font-size:22px;margin:0;line-height:1.25}.head{display:flex;gap:10px}.head h2{flex:1}.close{width:44px;height:44px;font-size:28px}.badge{display:inline-block;margin:12px 0;border-radius:999px;padding:7px 14px;font-weight:900;background:#172d30;border:1px solid rgba(53,234,217,.4)}.badge.done{background:#35ead9;color:#053}
-.shot{width:100%;border-radius:14px;border:1px solid rgba(255,255,255,.16);margin:8px 0 14px}.row{border-top:1px solid rgba(255,255,255,.12);padding:12px 0}.lab{color:#a9bdc3;font-size:13px}.val{font-size:18px;line-height:1.45}.doneBox{margin-top:8px;border:1px solid rgba(53,234,217,.35);border-radius:12px;padding:10px 12px;display:inline-flex;gap:10px;align-items:center;font-size:18px;font-weight:900;background:rgba(32,210,190,.1)}.doneBox input{width:26px;height:26px;accent-color:#35ead9}
+.drawer.open{transform:translateY(0)}.head{display:flex;gap:10px}.head h2{flex:1;margin:0;font-size:22px;line-height:1.25}.close{width:44px;height:44px;font-size:28px}
+.shot{width:100%;border-radius:14px;border:1px solid rgba(255,255,255,.16);margin:8px 0 14px}.row{border-top:1px solid rgba(255,255,255,.12);padding:12px 0}.lab{color:#a9bdc3;font-size:13px}.val{font-size:18px;line-height:1.45}
+.doneBox{margin-top:8px;border:1px solid rgba(53,234,217,.35);border-radius:12px;padding:10px 12px;display:inline-flex;gap:10px;align-items:center;font-size:18px;font-weight:900;background:rgba(32,210,190,.1)}.doneBox input{width:26px;height:26px;accent-color:#35ead9}
 .toast{position:absolute;left:50%;bottom:24px;transform:translateX(-50%) translateY(80px);background:#092c2f;border:1px solid rgba(53,234,217,.45);border-radius:999px;padding:10px 18px;z-index:60;transition:.2s;font-weight:800}.toast.show{transform:translateX(-50%) translateY(0)}
 @media(max-width:720px){header{height:96px;grid-template-columns:1fr auto auto}.title{grid-column:1/4}.pill{grid-column:1}.stage{height:calc(100vh - 96px)}.map{width:1060px}h1{font-size:19px}}
-
-.cleanTop{display:none;pointer-events:none}
-.cleanLeft{display:none;pointer-events:none}
-.mapPanel{display:none;pointer-events:none}
-.mapPanel .box{border:1px solid rgba(53,234,217,.35);background:rgba(4,22,25,.72);border-radius:4px;padding:8px;margin-bottom:8px}
-.mapPanel .ttl{font-weight:900;font-size:11px;margin-bottom:6px;color:#fff}
-.mapPanel .rate{display:grid;grid-template-columns:1fr 1fr;gap:4px;color:#a9bdc3}
-.mapPanel .num{font-size:15px;font-weight:900;color:#fff}
-.regionList div{display:flex;justify-content:space-between;border-top:1px solid rgba(255,255,255,.08);padding:4px 0}
-
 </style>
 </head>
 <body>
-<header><div class="title"><h1>デビエーション収容箱マップ</h1><div class="sub">MANIBUS BASE MAP / Ver1.3 safe</div></div><div class="pill"><small>回収率</small><b id="countTop">0/5</b></div><button class="topbtn" id="fit">全体表示</button><button class="topbtn" id="reset">リセット</button></header>
+<div class="app">
+<header>
+  <div class="title"><h1>デビエーション収容箱マップ</h1><div class="sub">MANIBUS BASE MAP / Ver1.4 safe</div></div>
+  <div class="pill"><small>回収率</small><b id="countTop">0/5</b></div>
+  <button class="topbtn" id="fit">全体表示</button>
+  <button class="topbtn" id="reset">リセット</button>
+</header>
 <main id="stage" class="stage">
-<div id="layer" class="layer"><img id="map" class="map" src="./manibus-map.jpeg?v=13">
-<div class="rate"><span>発見済み</span><span>回収率</span><span id="mapFound" class="num">0 / 5</span><span id="mapRate" class="num">0%</span></div>
-  </div>
-  <div class="box regionList">
-    <div class="ttl">地域選択</div>
-    <div><span>ブロークンデルタ</span><span>0/1</span></div>
-    <div><span>デイトン湿地</span><span>0/1</span></div>
-    <div><span>アイアン川</span><span>0/1</span></div>
-    <div><span>クルタ山</span><span>0/1</span></div>
-    <div><span>ローンウルフ荒野</span><span>0/1</span></div>
-    <div><span>ダークハーツ地域</span><span>0/0</span></div>
-  </div>
-</div>
-<div id="pins"></div></div>
-<div class="floating"><button id="panelBtn">表示設定</button></div>
-<section id="panel" class="panel"><h2>発見状況</h2><div class="big" id="countBig">0/5</div><label class="chk"><input id="showAll" type="checkbox" checked>すべて表示</label><label class="chk"><input id="showUndone" type="checkbox">未回収のみ</label><div class="editbox"><label class="chk"><input id="editPins" type="checkbox">ピン位置調整</label><div class="hint">ONにしてピンをドラッグすると位置を保存できます。</div></div><div class="hint">フィルターは今後追加予定<br>閉じる時は表示設定をタップ</div></section>
-<div class="zoom"><button id="zin">+</button><button id="zout">−</button></div><div id="coord" class="coord">X: 0 / Y: 0</div><div class="ver">Version 1.3 safe</div><aside id="drawer" class="drawer"></aside><div id="toast" class="toast">保存しました</div>
+  <div id="layer" class="layer"><img id="map" class="map" src="./manibus-map.jpeg?v=14" alt=""><div id="pins"></div></div>
+  <div class="floating"><button id="panelBtn">表示設定</button></div>
+  <section id="panel" class="panel">
+    <h2>発見状況</h2>
+    <div class="big" id="countBig">0/5</div>
+    <label class="chk"><input id="showAll" type="checkbox" checked>すべて</label>
+    <label class="chk"><input id="showUndone" type="checkbox">未回収のみ</label>
+    <label class="chk"><input id="editPins" type="checkbox">ピン位置調整</label>
+    <div class="hint">フィルター・データ管理は今後追加予定<br>ONでピンを動かせます</div>
+  </section>
+  <div class="zoom"><button id="zin">＋</button><button id="zout">−</button></div>
+  <div id="coord" class="coord">X: 0 / Y: 0</div>
+  <div class="ver">Version 1.4</div>
+  <aside id="drawer" class="drawer"></aside>
+  <div id="toast" class="toast">保存しました</div>
 </main>
+</div>
 <script>
 const DEFAULT=[
 {id:'p1',no:'001',x:.70,y:.82,title:'デビエーション収容箱 No.001',region:'ブロークンデルタ',place:'マイヤー市場付近',coord:'5754,-6566',desc:'マイヤー市場拠点の小部屋の中',image:'No001.png',done:false},
@@ -66,29 +69,34 @@ const DEFAULT=[
 {id:'p3',no:'003',x:.66,y:.58,title:'デビエーション収容箱 No.003',region:'アイアン川',place:'グレイウォーターキャンプ',coord:'5356,-3252',desc:'グレイウォーターキャンプのワールドストーン横の建物の階段を上がった場所',image:'No003.png',done:false},
 {id:'p4',no:'004',x:.48,y:.71,title:'デビエーション収容箱 No.004',region:'クルタ山',place:'トール・グラス付近',coord:'3001,-4948',desc:'トール・グラスのワールドストーンから湖沿いに右へ進んだ先にある小屋の中',image:'No004.png',done:false},
 {id:'p5',no:'005',x:.56,y:.47,title:'デビエーション収容箱 No.005',region:'ローンウルフ荒野',place:'ブラックフェルタウン付近',coord:'4109,-1447',desc:'ブラックフェルタウンのワールドストーンを真っ直ぐ進んだ先にある大きな建物の左側の建物の中',image:'No005.png',done:false}
-]
-const KEY='deviationMapPins_v13';let pins=JSON.parse(localStorage.getItem(KEY)||'null')||DEFAULT;pins=pins.map((p,i)=>({...DEFAULT[i],...p,done:!!p.done}));
-const stage=document.getElementById('stage'),layer=document.getElementById('layer'),map=document.getElementById('map'),pinsEl=document.getElementById('pins'),drawer=document.getElementById('drawer'),coord=document.getElementById('coord'),toast=document.getElementById('toast'),panel=document.getElementById('panel');
+];
+const KEY='deviationMapPins_v14';
+let saved=JSON.parse(localStorage.getItem(KEY)||'null');
+let pins=(saved&&saved.length===5)?saved:DEFAULT.map(p=>({...p}));
+const stage=document.getElementById('stage'),layer=document.getElementById('layer'),map=document.getElementById('map'),pinsEl=document.getElementById('pins'),drawer=document.getElementById('drawer'),coord=document.getElementById('coord'),toast=document.getElementById('toast');
 let scale=1,tx=0,ty=0,selected=null,pointers=new Map(),lastX=0,lastY=0,startScale=1,startDist=0;
 function save(){localStorage.setItem(KEY,JSON.stringify(pins))}
 function msg(t){toast.textContent=t;toast.classList.add('show');setTimeout(()=>toast.classList.remove('show'),1200)}
 function apply(){layer.style.transform=`translate(${tx}px,${ty}px) scale(${scale})`}
 function fit(){const r=stage.getBoundingClientRect(),w=map.naturalWidth||1100,h=map.naturalHeight||1000;scale=Math.min(r.width/w,r.height/h)*.92;tx=(r.width-w*scale)/2;ty=(r.height-h*scale)/2;apply()}
 map.onload=fit;if(map.complete)fit();window.addEventListener('resize',fit);
-function counts(){let d=pins.filter(p=>p.done).length,t=pins.length;countTop.textContent=countBig.textContent=`${d}/${t}`; if(document.getElementById('mapFound')){mapFound.textContent=`${d} / ${t}`; mapRate.textContent=((d/t)*100).toFixed(1)+'%';}}
-function render(){const undone=showUndone.checked,edit=editPins.checked;pinsEl.innerHTML='';pins.forEach(p=>{if(undone&&p.done)return;let b=document.createElement('button');b.className='pin'+(p.done?' done':'')+(edit?' edit':'');b.style.left=p.x*100+'%';b.style.top=p.y*100+'%';b.innerHTML=`<img src="deviation-box-icon.png?v=13"><span>No.${p.no}</span>`;b.addEventListener('pointerdown',e=>pinDown(e,p,b));b.onclick=e=>{e.stopPropagation();if(edit)return;openDrawer(p.id)};pinsEl.appendChild(b)});counts();if(selected)openDrawer(selected)}
-function pinDown(e,p,el){if(!editPins.checked)return;e.stopPropagation();el.setPointerCapture(e.pointerId);const move=ev=>{const r=map.getBoundingClientRect();p.x=Math.max(0,Math.min(1,(ev.clientX-r.left)/r.width));p.y=Math.max(0,Math.min(1,(ev.clientY-r.top)/r.height));el.style.left=p.x*100+'%';el.style.top=p.y*100+'%'};const up=()=>{el.removeEventListener('pointermove',move);el.removeEventListener('pointerup',up);el.removeEventListener('pointercancel',up);save();msg('ピン位置を保存しました')};el.addEventListener('pointermove',move);el.addEventListener('pointerup',up);el.addEventListener('pointercancel',up)}
-function openDrawer(id){selected=id;let p=pins.find(v=>v.id===id);drawer.innerHTML=`<div class="head"><h2>${p.title}</h2><button class="close" onclick="closeDrawer()">×</button></div><div class="row"><div class="lab">状態</div><label class="doneBox"><input type="checkbox" ${p.done?'checked':''} onchange="toggleDone('${p.id}')">回収済み</label></div><img class="shot" src="${p.image}?v=13"><div class="row"><div class="lab">地域</div><div class="val">${p.region}</div></div><div class="row"><div class="lab">場所</div><div class="val">${p.place}</div></div><div class="row"><div class="lab">座標</div><div class="val">${p.coord}</div></div><div class="row"><div class="lab">説明</div><div class="val">${p.desc}</div></div><button class="topbtn" onclick="copyCoord('${p.id}')">座標コピー</button>`;drawer.classList.add('open')}
-window.closeDrawer=()=>{drawer.classList.remove('open');selected=null}
-window.toggleDone=id=>{let p=pins.find(v=>v.id===id);p.done=!p.done;save();render();msg(p.done?'回収済みにしました':'未回収に戻しました')}
-window.copyCoord=id=>{let p=pins.find(v=>v.id===id);navigator.clipboard?.writeText(p.coord);msg('座標をコピーしました')}
-panelBtn.onclick=()=>panel.classList.toggle('open');showAll.onchange=e=>{if(e.target.checked)showUndone.checked=false;render()};showUndone.onchange=e=>{if(e.target.checked)showAll.checked=false;else showAll.checked=true;render()};editPins.onchange=render;fit.onclick=fit;reset.onclick=()=>{if(confirm('回収状況とピン位置をリセットしますか？')){pins=DEFAULT.map(p=>({...p}));save();render();closeDrawer();msg('リセットしました')}};
-function stageToMap(cx,cy){const r=stage.getBoundingClientRect();return{x:Math.round((cx-r.left-tx)/scale),y:Math.round((cy-r.top-ty)/scale)}}
-stage.addEventListener('pointerdown',e=>{if(e.target.closest('.pin'))return;stage.setPointerCapture(e.pointerId);pointers.set(e.pointerId,e);if(pointers.size===1){lastX=e.clientX;lastY=e.clientY}if(pointers.size===2){let a=[...pointers.values()];startDist=Math.hypot(a[0].clientX-a[1].clientX,a[0].clientY-a[1].clientY);startScale=scale}});
-stage.addEventListener('pointermove',e=>{if(!pointers.has(e.pointerId))return;pointers.set(e.pointerId,e);if(pointers.size===1){tx+=e.clientX-lastX;ty+=e.clientY-lastY;lastX=e.clientX;lastY=e.clientY;apply();let m=stageToMap(e.clientX,e.clientY);coord.textContent=`X: ${m.x} / Y: ${m.y}`}else if(pointers.size===2){let a=[...pointers.values()],d=Math.hypot(a[0].clientX-a[1].clientX,a[0].clientY-a[1].clientY);zoomAt((a[0].clientX+a[1].clientX)/2,(a[0].clientY+a[1].clientY)/2,startScale*d/startDist)}});
+function counts(){let d=pins.filter(p=>p.done).length,t=pins.length;countTop.textContent=countBig.textContent=`${d}/${t}`}
+function render(){const undone=showUndone.checked,edit=editPins.checked;pinsEl.innerHTML='';pins.forEach(p=>{if(undone&&p.done)return;let b=document.createElement('button');b.className='pin'+(p.done?' done':'')+(edit?' edit':'');b.style.left=p.x*100+'%';b.style.top=p.y*100+'%';b.innerHTML=`<img src="deviation-box-icon.png?v=14"><span>No.${p.no}</span>`;b.addEventListener('pointerdown',e=>pinDown(e,p,b));b.onclick=e=>{e.stopPropagation(); if(!edit)openDrawer(p.id)};pinsEl.appendChild(b)});counts()}
+function pinDown(e,p,el){if(!editPins.checked)return;e.stopPropagation();el.setPointerCapture(e.pointerId);const move=ev=>{const m=stageToMap(ev.clientX,ev.clientY);p.x=m.x/(map.naturalWidth||1100);p.y=m.y/(map.naturalHeight||1000);render()};const up=()=>{el.removeEventListener('pointermove',move);save();msg('位置を保存しました')};el.addEventListener('pointermove',move);el.addEventListener('pointerup',up,{once:true})}
+function openDrawer(id){selected=id;let p=pins.find(v=>v.id===id);drawer.innerHTML=`<div class="head"><h2>${p.title}</h2><button class="close" onclick="closeDrawer()">×</button></div><div class="row"><div class="lab">状態</div><label class="doneBox"><input type="checkbox" ${p.done?'checked':''} onchange="toggleDone('${p.id}')">回収済み</label></div><img class="shot" src="${p.image}?v=14"><div class="row"><div class="lab">地域</div><div class="val">${p.region}</div></div><div class="row"><div class="lab">場所</div><div class="val">${p.place}</div></div><div class="row"><div class="lab">座標</div><div class="val">${p.coord}</div></div><div class="row"><div class="lab">説明</div><div class="val">${p.desc}</div></div>`;drawer.classList.add('open')}
+window.closeDrawer=()=>drawer.classList.remove('open');
+window.toggleDone=id=>{let p=pins.find(v=>v.id===id);p.done=!p.done;save();render();openDrawer(id)}
+panelBtn.onclick=()=>panel.classList.toggle('open');
+showAll.onchange=()=>{if(showAll.checked)showUndone.checked=false;render()};
+showUndone.onchange=()=>{if(showUndone.checked)showAll.checked=false;render()};
+editPins.onchange=render;
+fit.onclick=fit;reset.onclick=()=>{pins.forEach(p=>p.done=false);save();render();msg('リセットしました')};
+function stageToMap(cx,cy){const r=stage.getBoundingClientRect();return {x:(cx-r.left-tx)/scale,y:(cy-r.top-ty)/scale}}
+stage.addEventListener('pointerdown',e=>{if(e.target.closest('.pin,.drawer,.panel,.floating,.zoom'))return;stage.setPointerCapture(e.pointerId);pointers.set(e.pointerId,e);if(pointers.size===1){lastX=e.clientX;lastY=e.clientY}if(pointers.size===2){const a=[...pointers.values()];startDist=Math.hypot(a[0].clientX-a[1].clientX,a[0].clientY-a[1].clientY);startScale=scale}});
+stage.addEventListener('pointermove',e=>{if(!pointers.has(e.pointerId))return;pointers.set(e.pointerId,e);if(pointers.size===1){tx+=e.clientX-lastX;ty+=e.clientY-lastY;lastX=e.clientX;lastY=e.clientY;apply();const m=stageToMap(e.clientX,e.clientY);coord.textContent=`X: ${Math.round(m.x)} / Y: ${Math.round(m.y)}`}else if(pointers.size===2){const a=[...pointers.values()];const d=Math.hypot(a[0].clientX-a[1].clientX,a[0].clientY-a[1].clientY);zoomAt((a[0].clientX+a[1].clientX)/2,(a[0].clientY+a[1].clientY)/2,startScale*(d/startDist),true)}});
 function end(e){pointers.delete(e.pointerId)}stage.addEventListener('pointerup',end);stage.addEventListener('pointercancel',end);
-function zoomAt(cx,cy,ns){ns=Math.max(.35,Math.min(4,ns));const r=stage.getBoundingClientRect(),mx=(cx-r.left-tx)/scale,my=(cy-r.top-ty)/scale;scale=ns;tx=cx-r.left-mx*scale;ty=cy-r.top-my*scale;apply()}
-zin.onclick=()=>zoomAt(innerWidth/2,innerHeight/2,scale*1.2);zout.onclick=()=>zoomAt(innerWidth/2,innerHeight/2,scale*.82);stage.addEventListener('dblclick',e=>zoomAt(e.clientX,e.clientY,scale*1.5));
+function zoomAt(cx,cy,ns,clamp=true){if(clamp)ns=Math.max(.35,Math.min(4,ns));const r=stage.getBoundingClientRect();const mx=(cx-r.left-tx)/scale,my=(cy-r.top-ty)/scale;scale=ns;tx=cx-r.left-mx*scale;ty=cy-r.top-my*scale;apply()}
+zin.onclick=()=>zoomAt(innerWidth/2,innerHeight/2,scale*1.2);zout.onclick=()=>zoomAt(innerWidth/2,innerHeight/2,scale*.82);
 render();
 if('serviceWorker' in navigator){navigator.serviceWorker.getRegistrations().then(rs=>rs.forEach(r=>r.unregister())).catch(()=>{})}
 </script>
