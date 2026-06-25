@@ -17,7 +17,7 @@ button{border:1px solid rgba(53,234,217,.45);border-radius:12px;background:rgba(
 .pin.edit img{border-color:#ffd36a;box-shadow:0 0 16px #ffd36a}.pin span{position:absolute;left:50%;top:50px;transform:translateX(-50%);white-space:nowrap;background:rgba(0,20,22,.9);border:1px solid rgba(53,234,217,.45);border-radius:8px;padding:2px 6px;font-size:11px;font-weight:900}
 .floating{position:absolute;left:12px;top:12px;z-index:20;display:flex;gap:8px}
 .floating button{padding:9px 12px;border-radius:999px}
-.panel{display:none;position:absolute;left:12px;top:58px;width:150px;max-width:calc(100vw - 24px);z-index:30;background:rgba(3,18,20,.55);border:1px solid rgba(53,234,217,.35);border-radius:12px;padding:8px;backdrop-filter:blur(5px)}
+.panel{display:none;position:absolute;left:12px;top:58px;width:160px;max-width:calc(100vw - 24px);z-index:30;background:rgba(3,18,20,.55);border:1px solid rgba(53,234,217,.35);border-radius:12px;padding:8px;backdrop-filter:blur(5px)}
 .panel.open{display:block}.panel h2{font-size:12px;margin:0 0 4px}.big{font-size:20px;font-weight:900}.chk{display:flex;gap:5px;align-items:center;margin:5px 0;font-weight:800;font-size:12px}.chk input{width:18px;height:18px;accent-color:#35ead9}.hint{font-size:10px;line-height:1.35;color:#d9f2f4}.editbox{border:1px solid rgba(255,211,106,.5);border-radius:9px;padding:5px;margin-top:5px}
 .zoom{position:absolute;right:12px;top:50%;transform:translateY(-50%);z-index:15;display:flex;flex-direction:column;gap:10px}.zoom button{width:56px;height:56px;font-size:34px}
 .coord{position:absolute;left:14px;bottom:18px;border:1px solid rgba(53,234,217,.4);border-radius:14px;background:rgba(4,22,25,.85);padding:10px 16px;font-weight:900;color:#cffff9;z-index:15}.ver{position:absolute;right:16px;bottom:20px;color:rgba(255,255,255,.55);z-index:15}
@@ -39,9 +39,9 @@ button{border:1px solid rgba(53,234,217,.45);border-radius:12px;background:rgba(
 </style>
 </head>
 <body>
-<header><div class="title"><h1>デビエーション収容箱マップ</h1><div class="sub">MANIBUS BASE MAP / Ver1.1 app</div></div><div class="pill"><small>回収率</small><b id="countTop">0/5</b></div><button class="topbtn" id="fit">全体表示</button><button class="topbtn" id="reset">リセット</button></header>
+<header><div class="title"><h1>デビエーション収容箱マップ</h1><div class="sub">MANIBUS BASE MAP / Ver1.2 safe</div></div><div class="pill"><small>回収率</small><b id="countTop">0/5</b></div><button class="topbtn" id="fit">全体表示</button><button class="topbtn" id="reset">リセット</button></header>
 <main id="stage" class="stage">
-<div id="layer" class="layer"><img id="map" class="map" src="./manibus-map-v11.jpeg?v=11">
+<div id="layer" class="layer"><img id="map" class="map" src="./manibus-map.jpeg?v=12">
 <div class="cleanTop"></div>
 <div class="cleanLeft"></div>
 <div class="mapPanel">
@@ -51,18 +51,18 @@ button{border:1px solid rgba(53,234,217,.45);border-radius:12px;background:rgba(
   </div>
   <div class="box regionList">
     <div class="ttl">地域選択</div>
-    <div><span>ブロークンデルタ</span><span id="rBroken">0/1</span></div>
-    <div><span>デイトン湿地</span><span id="rDayton">0/1</span></div>
-    <div><span>アイアン川</span><span id="rIron">0/1</span></div>
-    <div><span>クルタ山</span><span id="rKurta">0/1</span></div>
-    <div><span>ローンウルフ荒野</span><span id="rWolf">0/1</span></div>
-    <div><span>ダークハーツ地域</span><span id="rDark">0/0</span></div>
+    <div><span>ブロークンデルタ</span><span>0/1</span></div>
+    <div><span>デイトン湿地</span><span>0/1</span></div>
+    <div><span>アイアン川</span><span>0/1</span></div>
+    <div><span>クルタ山</span><span>0/1</span></div>
+    <div><span>ローンウルフ荒野</span><span>0/1</span></div>
+    <div><span>ダークハーツ地域</span><span>0/0</span></div>
   </div>
 </div>
 <div id="pins"></div></div>
 <div class="floating"><button id="panelBtn">表示設定</button></div>
-<section id="panel" class="panel"><h2>発見状況</h2><div class="big" id="countBig">0/5</div><label class="chk"><input id="showAll" type="checkbox" checked>すべて表示</label><label class="chk"><input id="showUndone" type="checkbox">未回収のみ</label><div class="editbox"><label class="chk"><input id="editPins" type="checkbox">ピン位置調整</label><div class="hint">ONにしてピンをドラッグすると位置を保存できます。</div></div><div class="hint">フィルター・データ管理は今後追加予定<br>閉じる時は表示設定をタップ</div></section>
-<div class="zoom"><button id="zin">+</button><button id="zout">−</button></div><div id="coord" class="coord">X: 0 / Y: 0</div><div class="ver">Version 1.1 app</div><aside id="drawer" class="drawer"></aside><div id="toast" class="toast">保存しました</div>
+<section id="panel" class="panel"><h2>発見状況</h2><div class="big" id="countBig">0/5</div><label class="chk"><input id="showAll" type="checkbox" checked>すべて表示</label><label class="chk"><input id="showUndone" type="checkbox">未回収のみ</label><div class="editbox"><label class="chk"><input id="editPins" type="checkbox">ピン位置調整</label><div class="hint">ONにしてピンをドラッグすると位置を保存できます。</div></div><div class="hint">フィルターは今後追加予定<br>閉じる時は表示設定をタップ</div></section>
+<div class="zoom"><button id="zin">+</button><button id="zout">−</button></div><div id="coord" class="coord">X: 0 / Y: 0</div><div class="ver">Version 1.2 safe</div><aside id="drawer" class="drawer"></aside><div id="toast" class="toast">保存しました</div>
 </main>
 <script>
 const DEFAULT=[
@@ -72,7 +72,7 @@ const DEFAULT=[
 {id:'p4',no:'004',x:.48,y:.71,title:'デビエーション収容箱 No.004',region:'クルタ山',place:'トール・グラス付近',coord:'3001,-4948',desc:'トール・グラスのワールドストーンから湖沿いに右へ進んだ先にある小屋の中',image:'No004.png',done:false},
 {id:'p5',no:'005',x:.56,y:.47,title:'デビエーション収容箱 No.005',region:'ローンウルフ荒野',place:'ブラックフェルタウン付近',coord:'4109,-1447',desc:'ブラックフェルタウンのワールドストーンを真っ直ぐ進んだ先にある大きな建物の左側の建物の中',image:'No005.png',done:false}
 ]
-const KEY='deviationMapPins_v11';let pins=JSON.parse(localStorage.getItem(KEY)||'null')||DEFAULT;pins=pins.map((p,i)=>({...DEFAULT[i],...p,done:!!p.done}));
+const KEY='deviationMapPins_v12';let pins=JSON.parse(localStorage.getItem(KEY)||'null')||DEFAULT;pins=pins.map((p,i)=>({...DEFAULT[i],...p,done:!!p.done}));
 const stage=document.getElementById('stage'),layer=document.getElementById('layer'),map=document.getElementById('map'),pinsEl=document.getElementById('pins'),drawer=document.getElementById('drawer'),coord=document.getElementById('coord'),toast=document.getElementById('toast'),panel=document.getElementById('panel');
 let scale=1,tx=0,ty=0,selected=null,pointers=new Map(),lastX=0,lastY=0,startScale=1,startDist=0;
 function save(){localStorage.setItem(KEY,JSON.stringify(pins))}
@@ -80,24 +80,10 @@ function msg(t){toast.textContent=t;toast.classList.add('show');setTimeout(()=>t
 function apply(){layer.style.transform=`translate(${tx}px,${ty}px) scale(${scale})`}
 function fit(){const r=stage.getBoundingClientRect(),w=map.naturalWidth||1100,h=map.naturalHeight||1000;scale=Math.min(r.width/w,r.height/h)*.92;tx=(r.width-w*scale)/2;ty=(r.height-h*scale)/2;apply()}
 map.onload=fit;if(map.complete)fit();window.addEventListener('resize',fit);
-function counts(){
-let d=pins.filter(p=>p.done).length,t=pins.length;
-countTop.textContent=countBig.textContent=`${d}/${t}`;
-if(document.getElementById('mapFound')){
-  mapFound.textContent=`${d} / ${t}`;
-  mapRate.textContent=((d/t)*100).toFixed(1)+'%';
-  const reg=n=>pins.filter(p=>p.region===n&&p.done).length;
-  rBroken.textContent=`${reg('ブロークンデルタ')}/1`;
-  rDayton.textContent=`${reg('デイトン湿地')}/1`;
-  rIron.textContent=`${reg('アイアン川')}/1`;
-  rKurta.textContent=`${reg('クルタ山')}/1`;
-  rWolf.textContent=`${reg('ローンウルフ荒野')}/1`;
-  rDark.textContent='0/0';
-}
-}/${t}`; if(document.getElementById('mapFound')){mapFound.textContent=`${d} / ${t}`; mapRate.textContent=((d/t)*100).toFixed(1)+'%';}}
-function render(){const undone=showUndone.checked,edit=editPins.checked;pinsEl.innerHTML='';pins.forEach(p=>{if(undone&&p.done)return;let b=document.createElement('button');b.className='pin'+(p.done?' done':'')+(edit?' edit':'');b.style.left=p.x*100+'%';b.style.top=p.y*100+'%';b.innerHTML=`<img src="deviation-box-icon.png?v=11"><span>No.${p.no}</span>`;b.addEventListener('pointerdown',e=>pinDown(e,p,b));b.onclick=e=>{e.stopPropagation();if(edit)return;openDrawer(p.id)};pinsEl.appendChild(b)});counts();if(selected)openDrawer(selected)}
+function counts(){let d=pins.filter(p=>p.done).length,t=pins.length;countTop.textContent=countBig.textContent=`${d}/${t}`; if(document.getElementById('mapFound')){mapFound.textContent=`${d} / ${t}`; mapRate.textContent=((d/t)*100).toFixed(1)+'%';}}
+function render(){const undone=showUndone.checked,edit=editPins.checked;pinsEl.innerHTML='';pins.forEach(p=>{if(undone&&p.done)return;let b=document.createElement('button');b.className='pin'+(p.done?' done':'')+(edit?' edit':'');b.style.left=p.x*100+'%';b.style.top=p.y*100+'%';b.innerHTML=`<img src="deviation-box-icon.png?v=12"><span>No.${p.no}</span>`;b.addEventListener('pointerdown',e=>pinDown(e,p,b));b.onclick=e=>{e.stopPropagation();if(edit)return;openDrawer(p.id)};pinsEl.appendChild(b)});counts();if(selected)openDrawer(selected)}
 function pinDown(e,p,el){if(!editPins.checked)return;e.stopPropagation();el.setPointerCapture(e.pointerId);const move=ev=>{const r=map.getBoundingClientRect();p.x=Math.max(0,Math.min(1,(ev.clientX-r.left)/r.width));p.y=Math.max(0,Math.min(1,(ev.clientY-r.top)/r.height));el.style.left=p.x*100+'%';el.style.top=p.y*100+'%'};const up=()=>{el.removeEventListener('pointermove',move);el.removeEventListener('pointerup',up);el.removeEventListener('pointercancel',up);save();msg('ピン位置を保存しました')};el.addEventListener('pointermove',move);el.addEventListener('pointerup',up);el.addEventListener('pointercancel',up)}
-function openDrawer(id){selected=id;let p=pins.find(v=>v.id===id);drawer.innerHTML=`<div class="head"><h2>${p.title}</h2><button class="close" onclick="closeDrawer()">×</button></div><div class="row"><div class="lab">状態</div><label class="doneBox"><input type="checkbox" ${p.done?'checked':''} onchange="toggleDone('${p.id}')">回収済み</label></div><img class="shot" src="${p.image}?v=11"><div class="row"><div class="lab">地域</div><div class="val">${p.region}</div></div><div class="row"><div class="lab">場所</div><div class="val">${p.place}</div></div><div class="row"><div class="lab">座標</div><div class="val">${p.coord}</div></div><div class="row"><div class="lab">説明</div><div class="val">${p.desc}</div></div><button class="topbtn" onclick="copyCoord('${p.id}')">座標コピー</button>`;drawer.classList.add('open')}
+function openDrawer(id){selected=id;let p=pins.find(v=>v.id===id);drawer.innerHTML=`<div class="head"><h2>${p.title}</h2><button class="close" onclick="closeDrawer()">×</button></div><div class="row"><div class="lab">状態</div><label class="doneBox"><input type="checkbox" ${p.done?'checked':''} onchange="toggleDone('${p.id}')">回収済み</label></div><img class="shot" src="${p.image}?v=12"><div class="row"><div class="lab">地域</div><div class="val">${p.region}</div></div><div class="row"><div class="lab">場所</div><div class="val">${p.place}</div></div><div class="row"><div class="lab">座標</div><div class="val">${p.coord}</div></div><div class="row"><div class="lab">説明</div><div class="val">${p.desc}</div></div><button class="topbtn" onclick="copyCoord('${p.id}')">座標コピー</button>`;drawer.classList.add('open')}
 window.closeDrawer=()=>{drawer.classList.remove('open');selected=null}
 window.toggleDone=id=>{let p=pins.find(v=>v.id===id);p.done=!p.done;save();render();msg(p.done?'回収済みにしました':'未回収に戻しました')}
 window.copyCoord=id=>{let p=pins.find(v=>v.id===id);navigator.clipboard?.writeText(p.coord);msg('座標をコピーしました')}
