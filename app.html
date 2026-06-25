@@ -19,12 +19,12 @@ button{border:1px solid rgba(53,234,217,.45);border-radius:13px;background:rgba(
 .layer{position:absolute;left:0;top:0;transform-origin:0 0}
 .map{width:1100px;max-width:none;display:block;user-select:none;pointer-events:none}
 #pins{position:absolute;inset:0}
-.pin{position:absolute;transform:translate(-50%,-50%);padding:0;border:0;background:transparent;filter:drop-shadow(0 0 10px #35ead9);touch-action:none}
-.pin img{width:58px;height:58px;object-fit:cover;border:2px solid #35ead9;border-radius:10px;background:#001b1d}
-.pin.done img{border-color:#72ffbd}
-.pin:after{content:"";position:absolute;right:-5px;top:-7px;border-radius:50%;background:#35ead9;color:#042;width:24px;height:24px;display:grid;place-items:center;font-weight:900}
-.pin.done:after{content:"✓"}
-.pin span{position:absolute;left:50%;top:52px;transform:translateX(-50%);white-space:nowrap;background:rgba(0,20,22,.92);border:1px solid rgba(53,234,217,.45);border-radius:8px;padding:2px 7px;font-size:11px;font-weight:900}
+
+
+
+
+
+
 .floating{position:absolute;left:12px;top:12px;z-index:25}.floating button{padding:9px 13px;border-radius:999px;font-size:14px}
 .panel{display:none;position:absolute;left:12px;top:58px;width:220px;z-index:30;background:rgba(3,18,20,.74);border:1px solid rgba(53,234,217,.38);border-radius:13px;padding:10px;backdrop-filter:blur(6px)}
 .panel.open{display:block}.panel h2{font-size:13px;margin:0 0 5px}.big{font-size:22px;font-weight:900;margin-bottom:4px}
@@ -34,7 +34,7 @@ button{border:1px solid rgba(53,234,217,.45);border-radius:13px;background:rgba(
 .zoom button{width:58px;height:58px;font-size:36px}
 .coord{display:none}
 .ver{position:absolute;right:16px;bottom:20px;color:rgba(255,255,255,.55);z-index:15}
-.drawer{position:absolute;left:14px;right:14px;bottom:14px;max-height:72%;overflow:auto;z-index:40;background:rgba(3,15,17,.94);border:1px solid rgba(53,234,217,.35);border-radius:20px;padding:18px;transform:translateY(115%);transition:.22s;backdrop-filter:blur(10px)}
+.drawer{position:absolute;left:14px;right:14px;bottom:14px;max-height:72%;overflow:auto;z-index:40;background:rgba(3,15,17,.94);border:0;border-radius:20px;padding:18px;transform:translateY(115%);transition:.22s;backdrop-filter:blur(10px)}
 .drawer.open{transform:translateY(0)}.head{display:flex;gap:10px}.head h2{flex:1;margin:0;font-size:22px;line-height:1.25}.close{width:44px;height:44px;font-size:28px}
 .shot{width:100%;border-radius:14px;border:1px solid rgba(255,255,255,.16);margin:8px 0 14px}
 .row{border-top:1px solid rgba(255,255,255,.12);padding:12px 0}.lab{color:#a9bdc3;font-size:13px}.val{font-size:18px;line-height:1.45}
@@ -115,11 +115,81 @@ button{border:1px solid rgba(53,234,217,.45);border-radius:13px;background:rgba(
   accent-color:#35ead9;
 }
 
+
+.drawer{border:0!important;box-shadow:none!important}
+.drawer:not(.open){visibility:hidden}
+
+.pin{
+  position:absolute;
+  transform:translate(-50%,-50%);
+  padding:0;
+  border:0;
+  background:transparent;
+  filter:drop-shadow(0 0 8px #ffd34a) drop-shadow(0 0 16px rgba(255,211,74,.72));
+  touch-action:none;
+}
+.pin img{
+  width:58px;
+  height:58px;
+  object-fit:cover;
+  border:3px solid #ffd34a;
+  border-radius:10px;
+  background:#001b1d;
+  box-shadow:0 0 0 2px rgba(255,211,74,.24),0 0 18px rgba(255,211,74,.95),0 0 30px rgba(255,211,74,.45);
+}
+.pin.done{
+  filter:drop-shadow(0 0 8px #43ff9b) drop-shadow(0 0 18px rgba(67,255,155,.72));
+}
+.pin.done img{
+  border-color:#43ff9b;
+  box-shadow:0 0 0 2px rgba(67,255,155,.24),0 0 18px rgba(67,255,155,.95),0 0 30px rgba(67,255,155,.5);
+}
+.pin:after{
+  content:"";
+  position:absolute;
+  right:-5px;
+  top:-7px;
+  border-radius:50%;
+  background:#ffd34a;
+  color:#301f00;
+  width:24px;
+  height:24px;
+  display:grid;
+  place-items:center;
+  font-weight:900;
+  box-shadow:0 0 10px rgba(255,211,74,.95);
+}
+.pin.done:after{
+  content:"✓";
+  background:#43ff9b;
+  color:#04351c;
+  box-shadow:0 0 10px rgba(67,255,155,.95);
+}
+.pin span{
+  position:absolute;
+  left:50%;
+  top:52px;
+  transform:translateX(-50%);
+  white-space:nowrap;
+  background:rgba(0,20,22,.94);
+  border:1px solid rgba(255,211,74,.82);
+  border-radius:8px;
+  padding:2px 7px;
+  font-size:11px;
+  font-weight:900;
+  box-shadow:0 0 10px rgba(255,211,74,.55);
+}
+.pin.done span{
+  border-color:rgba(67,255,155,.82);
+  box-shadow:0 0 10px rgba(67,255,155,.55);
+}
+
 </style>
 <!-- Ver2.4 background-slider-fixed -->
 <!-- Ver2.5 visible-background-header-volume -->
 <!-- Ver2.6 compact-volume-right -->
 <!-- Ver2.7 volume-size-fix -->
+<!-- Ver1.0 Final: volume fixed, gold/green pins, bottom line removed -->
 </head>
 <body>
 <div class="app">
@@ -132,7 +202,7 @@ button{border:1px solid rgba(53,234,217,.45);border-radius:13px;background:rgba(
 
 <main id="stage" class="stage">
   <div id="layer" class="layer">
-    <img id="map" class="map" src="./manibus-map-clean.png?v=27" alt="">
+    <img id="map" class="map" src="./manibus-map-clean.png?v=28" alt="">
     <div id="pins"></div>
   </div>
 
@@ -163,7 +233,7 @@ const DEFAULT=[
 {id:'p5',no:'005',x:.56,y:.47,title:'デビエーション収容箱 No.005',region:'ローンウルフ荒野',place:'ブラックフェルタウン付近',coord:'4109,-1447',desc:'ブラックフェルタウンのワールドストーンを真っ直ぐ進んだ先にある大きな建物の左側の建物の中',image:'No005.png',done:false}
 ];
 
-const KEY='deviationMapPins_v27';
+const KEY='deviationMapPins_v28';
 let saved=JSON.parse(localStorage.getItem(KEY)||'null');
 let pins=(saved&&saved.length===5)?saved:DEFAULT.map(p=>({...p}));
 const stage=document.getElementById('stage'),layer=document.getElementById('layer'),map=document.getElementById('map'),pinsEl=document.getElementById('pins'),drawer=document.getElementById('drawer'),coord=document.getElementById('coord'),toast=document.getElementById('toast');
@@ -207,7 +277,7 @@ function render(){
     let b=document.createElement('button');
     b.className='pin'+(p.done?' done':'')+(edit?' edit':'');
     b.style.left=p.x*100+'%'; b.style.top=p.y*100+'%';
-    b.innerHTML=`<img src="deviation-box-icon.png?v=27"><span>No.${p.no}</span>`;
+    b.innerHTML=`<img src="deviation-box-icon.png?v=28"><span>No.${p.no}</span>`;
     b.addEventListener('pointerdown',e=>pinDown(e,p,b));
     b.onclick=e=>{e.stopPropagation(); if(!edit)openDrawer(p.id)};
     pinsEl.appendChild(b);
@@ -225,7 +295,7 @@ function openDrawer(id){
   selected=id;let p=pins.find(v=>v.id===id);
   drawer.innerHTML=`<div class="head"><h2>${p.title}</h2><button class="close" onclick="closeDrawer()">×</button></div>
   <div class="row"><div class="lab">状態</div><label class="doneBox"><input type="checkbox" ${p.done?'checked':''} onchange="toggleDone('${p.id}')">回収済み</label></div>
-  <img class="shot" src="${p.image}?v=27">
+  <img class="shot" src="${p.image}?v=28">
   <div class="row"><div class="lab">地域</div><div class="val">${p.region}</div></div>
   <div class="row"><div class="lab">場所</div><div class="val">${p.place}</div></div>
   <div class="row"><div class="lab">座標</div><div class="val">${p.coord}</div></div>
@@ -235,8 +305,8 @@ function openDrawer(id){
 window.closeDrawer=()=>drawer.classList.remove('open');
 window.toggleDone=id=>{let p=pins.find(v=>v.id===id);p.done=!p.done;save();
 // ===== Ver2.1 Final Audio =====
-const bgmStateKey='deviationMapBgm_v27';
-const bgmVolumeKey='deviationMapBgmVolume_v27';
+const bgmStateKey='deviationMapBgm_v28';
+const bgmVolumeKey='deviationMapBgmVolume_v28';
 const bgmFiles={day:'day_bgm.mp3',night:'night_bgm.mp3'};
 let bgmMode=localStorage.getItem(bgmStateKey)||'off';
 let bgmVolume=Number(localStorage.getItem(bgmVolumeKey) || '35');
@@ -270,7 +340,7 @@ function playBgm(mode){
   bgmMode=mode;
   bgmAudio=new Audio(bgmFiles[mode]);
   bgmAudio.loop=true;
-  bgmAudio.volume=(window.volSlider?Number(volSlider.value):(bgmVolume||35))/100;
+  bgmAudio.volume=(window.volSlider?Number(volSlider.value):35)/100;
   bgmAudio.play().catch(()=>{});
   localStorage.setItem(bgmStateKey,bgmMode);
   setBgmButton();
@@ -290,7 +360,7 @@ if(window.volSlider){
     bgmVolume=Number(volSlider.value);
     localStorage.setItem(bgmVolumeKey,String(bgmVolume));
     setVolumeUi();
-    if(bgmAudio) bgmAudio.volume=(window.volSlider?Number(volSlider.value):(bgmVolume||35))/100;
+    if(bgmAudio) bgmAudio.volume=(window.volSlider?Number(volSlider.value):35)/100;
   };
 }
 function beep(freq=660,dur=0.08){
@@ -316,9 +386,9 @@ function updateVolumeUiFinal(){
     volSlider.value=bgmVolume;
     volSlider.oninput=()=>{
       bgmVolume=Number(volSlider.value);
-      try{localStorage.setItem('deviationMapBgmVolume_v27',String(bgmVolume));}catch(e){}
+      try{localStorage.setItem('deviationMapBgmVolume_v28',String(bgmVolume));}catch(e){}
       if(window.volLabel) volLabel.textContent=bgmVolume+'%';
-      if(typeof bgmAudio!=='undefined' && bgmAudio) bgmAudio.volume=(window.volSlider?Number(volSlider.value):(bgmVolume||35))/100;
+      if(typeof bgmAudio!=='undefined' && bgmAudio) bgmAudio.volume=(window.volSlider?Number(volSlider.value):35)/100;
     };
   }
   if(window.volLabel) volLabel.textContent=bgmVolume+'%';
@@ -327,7 +397,7 @@ updateVolumeUiFinal();
 
 
 function applyVolumeSliderV24(){
-  const key='deviationMapBgmVolume_v27';
+  const key='deviationMapBgmVolume_v28';
   let v=Number(localStorage.getItem(key)||'35');
   if(window.volSlider){
     volSlider.value=v;
@@ -336,7 +406,7 @@ function applyVolumeSliderV24(){
       v=Number(volSlider.value);
       localStorage.setItem(key,String(v));
       if(window.volLabel) volLabel.textContent=v+'%';
-      try{ if(bgmAudio) bgmAudio.volume=v/100; }catch(e){}
+      try{ if(bgmAudio) bgmAudio.volume=(window.volSlider?Number(volSlider.value):35)/100; }catch(e){}
     };
   }
 }
@@ -344,7 +414,7 @@ applyVolumeSliderV24();
 
 
 function applyVolumeSliderV25(){
-  const key='deviationMapBgmVolume_v27';
+  const key='deviationMapBgmVolume_v28';
   let v=Number(localStorage.getItem(key)||'35');
   if(window.volSlider){
     volSlider.value=v;
@@ -353,7 +423,7 @@ function applyVolumeSliderV25(){
       v=Number(volSlider.value);
       localStorage.setItem(key,String(v));
       if(window.volLabel) volLabel.textContent=v+'%';
-      try{ if(bgmAudio) bgmAudio.volume=v/100; }catch(e){}
+      try{ if(bgmAudio) bgmAudio.volume=(window.volSlider?Number(volSlider.value):35)/100; }catch(e){}
     };
   }
 }
@@ -361,8 +431,8 @@ applyVolumeSliderV25();
 
 
 function bindVolumeSliderV27(){
-  const key='deviationMapBgmVolume_v27';
-  let saved=Number(localStorage.getItem(key)||localStorage.getItem('deviationMapBgmVolume_v26')||'35');
+  const key='deviationMapBgmVolume_v28';
+  let saved=Number(localStorage.getItem(key)||localStorage.getItem('deviationMapBgmVolume_v28')||'35');
   if(window.volSlider){
     volSlider.value=saved;
     if(window.volLabel) volLabel.textContent=saved+'%';
@@ -374,7 +444,7 @@ function bindVolumeSliderV27(){
       if(window.volLabel) volLabel.textContent=v+'%';
       try{
         if(typeof bgmVolume!=='undefined') bgmVolume=v;
-        if(typeof bgmAudio!=='undefined' && bgmAudio) bgmAudio.volume=v/100;
+        if(typeof bgmAudio!=='undefined' && bgmAudio) bgmAudio.volume=(window.volSlider?Number(volSlider.value):35)/100;
       }catch(e){}
     };
   }
@@ -419,7 +489,7 @@ function playBgm(mode){
   bgmMode=mode;
   bgmAudio=new Audio(bgmFiles[mode]);
   bgmAudio.loop=true;
-  bgmAudio.volume=0.35;
+  bgmAudio.volume=(window.volSlider?Number(volSlider.value):35)/100;
   bgmAudio.play().catch(()=>{});
   localStorage.setItem(bgmStateKey,bgmMode);
   setBgmButton();
@@ -456,9 +526,9 @@ function updateVolumeUiFinal(){
     volSlider.value=bgmVolume;
     volSlider.oninput=()=>{
       bgmVolume=Number(volSlider.value);
-      try{localStorage.setItem('deviationMapBgmVolume_v27',String(bgmVolume));}catch(e){}
+      try{localStorage.setItem('deviationMapBgmVolume_v28',String(bgmVolume));}catch(e){}
       if(window.volLabel) volLabel.textContent=bgmVolume+'%';
-      if(typeof bgmAudio!=='undefined' && bgmAudio) bgmAudio.volume=(window.volSlider?Number(volSlider.value):(bgmVolume||35))/100;
+      if(typeof bgmAudio!=='undefined' && bgmAudio) bgmAudio.volume=(window.volSlider?Number(volSlider.value):35)/100;
     };
   }
   if(window.volLabel) volLabel.textContent=bgmVolume+'%';
@@ -467,7 +537,7 @@ updateVolumeUiFinal();
 
 
 function applyVolumeSliderV24(){
-  const key='deviationMapBgmVolume_v27';
+  const key='deviationMapBgmVolume_v28';
   let v=Number(localStorage.getItem(key)||'35');
   if(window.volSlider){
     volSlider.value=v;
@@ -476,7 +546,7 @@ function applyVolumeSliderV24(){
       v=Number(volSlider.value);
       localStorage.setItem(key,String(v));
       if(window.volLabel) volLabel.textContent=v+'%';
-      try{ if(bgmAudio) bgmAudio.volume=v/100; }catch(e){}
+      try{ if(bgmAudio) bgmAudio.volume=(window.volSlider?Number(volSlider.value):35)/100; }catch(e){}
     };
   }
 }
@@ -484,7 +554,7 @@ applyVolumeSliderV24();
 
 
 function applyVolumeSliderV25(){
-  const key='deviationMapBgmVolume_v27';
+  const key='deviationMapBgmVolume_v28';
   let v=Number(localStorage.getItem(key)||'35');
   if(window.volSlider){
     volSlider.value=v;
@@ -493,7 +563,7 @@ function applyVolumeSliderV25(){
       v=Number(volSlider.value);
       localStorage.setItem(key,String(v));
       if(window.volLabel) volLabel.textContent=v+'%';
-      try{ if(bgmAudio) bgmAudio.volume=v/100; }catch(e){}
+      try{ if(bgmAudio) bgmAudio.volume=(window.volSlider?Number(volSlider.value):35)/100; }catch(e){}
     };
   }
 }
@@ -501,8 +571,8 @@ applyVolumeSliderV25();
 
 
 function bindVolumeSliderV27(){
-  const key='deviationMapBgmVolume_v27';
-  let saved=Number(localStorage.getItem(key)||localStorage.getItem('deviationMapBgmVolume_v26')||'35');
+  const key='deviationMapBgmVolume_v28';
+  let saved=Number(localStorage.getItem(key)||localStorage.getItem('deviationMapBgmVolume_v28')||'35');
   if(window.volSlider){
     volSlider.value=saved;
     if(window.volLabel) volLabel.textContent=saved+'%';
@@ -514,7 +584,7 @@ function bindVolumeSliderV27(){
       if(window.volLabel) volLabel.textContent=v+'%';
       try{
         if(typeof bgmVolume!=='undefined') bgmVolume=v;
-        if(typeof bgmAudio!=='undefined' && bgmAudio) bgmAudio.volume=v/100;
+        if(typeof bgmAudio!=='undefined' && bgmAudio) bgmAudio.volume=(window.volSlider?Number(volSlider.value):35)/100;
       }catch(e){}
     };
   }
@@ -582,7 +652,7 @@ function playBgm(mode){
   bgmMode=mode;
   bgmAudio=new Audio(bgmFiles[mode]);
   bgmAudio.loop=true;
-  bgmAudio.volume=0.35;
+  bgmAudio.volume=(window.volSlider?Number(volSlider.value):35)/100;
   bgmAudio.play().catch(()=>{});
   localStorage.setItem(bgmStateKey,bgmMode);
   setBgmButton();
@@ -619,9 +689,9 @@ function updateVolumeUiFinal(){
     volSlider.value=bgmVolume;
     volSlider.oninput=()=>{
       bgmVolume=Number(volSlider.value);
-      try{localStorage.setItem('deviationMapBgmVolume_v27',String(bgmVolume));}catch(e){}
+      try{localStorage.setItem('deviationMapBgmVolume_v28',String(bgmVolume));}catch(e){}
       if(window.volLabel) volLabel.textContent=bgmVolume+'%';
-      if(typeof bgmAudio!=='undefined' && bgmAudio) bgmAudio.volume=(window.volSlider?Number(volSlider.value):(bgmVolume||35))/100;
+      if(typeof bgmAudio!=='undefined' && bgmAudio) bgmAudio.volume=(window.volSlider?Number(volSlider.value):35)/100;
     };
   }
   if(window.volLabel) volLabel.textContent=bgmVolume+'%';
@@ -630,7 +700,7 @@ updateVolumeUiFinal();
 
 
 function applyVolumeSliderV24(){
-  const key='deviationMapBgmVolume_v27';
+  const key='deviationMapBgmVolume_v28';
   let v=Number(localStorage.getItem(key)||'35');
   if(window.volSlider){
     volSlider.value=v;
@@ -639,7 +709,7 @@ function applyVolumeSliderV24(){
       v=Number(volSlider.value);
       localStorage.setItem(key,String(v));
       if(window.volLabel) volLabel.textContent=v+'%';
-      try{ if(bgmAudio) bgmAudio.volume=v/100; }catch(e){}
+      try{ if(bgmAudio) bgmAudio.volume=(window.volSlider?Number(volSlider.value):35)/100; }catch(e){}
     };
   }
 }
@@ -647,7 +717,7 @@ applyVolumeSliderV24();
 
 
 function applyVolumeSliderV25(){
-  const key='deviationMapBgmVolume_v27';
+  const key='deviationMapBgmVolume_v28';
   let v=Number(localStorage.getItem(key)||'35');
   if(window.volSlider){
     volSlider.value=v;
@@ -656,7 +726,7 @@ function applyVolumeSliderV25(){
       v=Number(volSlider.value);
       localStorage.setItem(key,String(v));
       if(window.volLabel) volLabel.textContent=v+'%';
-      try{ if(bgmAudio) bgmAudio.volume=v/100; }catch(e){}
+      try{ if(bgmAudio) bgmAudio.volume=(window.volSlider?Number(volSlider.value):35)/100; }catch(e){}
     };
   }
 }
@@ -664,8 +734,8 @@ applyVolumeSliderV25();
 
 
 function bindVolumeSliderV27(){
-  const key='deviationMapBgmVolume_v27';
-  let saved=Number(localStorage.getItem(key)||localStorage.getItem('deviationMapBgmVolume_v26')||'35');
+  const key='deviationMapBgmVolume_v28';
+  let saved=Number(localStorage.getItem(key)||localStorage.getItem('deviationMapBgmVolume_v28')||'35');
   if(window.volSlider){
     volSlider.value=saved;
     if(window.volLabel) volLabel.textContent=saved+'%';
@@ -677,7 +747,7 @@ function bindVolumeSliderV27(){
       if(window.volLabel) volLabel.textContent=v+'%';
       try{
         if(typeof bgmVolume!=='undefined') bgmVolume=v;
-        if(typeof bgmAudio!=='undefined' && bgmAudio) bgmAudio.volume=v/100;
+        if(typeof bgmAudio!=='undefined' && bgmAudio) bgmAudio.volume=(window.volSlider?Number(volSlider.value):35)/100;
       }catch(e){}
     };
   }
@@ -687,5 +757,47 @@ bindVolumeSliderV27();
 render();
 if('serviceWorker' in navigator){navigator.serviceWorker.getRegistrations().then(rs=>rs.forEach(r=>r.unregister())).catch(()=>{})}
 </script>
+
+<script id="volume-final-fix">
+(function(){
+  const volumeKey='deviationMapBgmVolume_v28';
+  function currentVolume(){
+    const slider=document.getElementById('volSlider');
+    if(slider) return Number(slider.value)/100;
+    return Number(localStorage.getItem(volumeKey)||35)/100;
+  }
+  window.__applyBgmVolume=function(){
+    const slider=document.getElementById('volSlider');
+    const label=document.getElementById('volLabel');
+    const val=slider ? Number(slider.value) : Number(localStorage.getItem(volumeKey)||35);
+    if(label) label.textContent=val+'%';
+    localStorage.setItem(volumeKey,String(val));
+    try{
+      if(window.bgmAudio) window.bgmAudio.volume=(window.volSlider?Number(volSlider.value):35)/100;
+      if(typeof bgmAudio!=='undefined' && bgmAudio) bgmAudio.volume=(window.volSlider?Number(volSlider.value):35)/100;
+      if(window.audio) window.audio.volume=val/100;
+      document.querySelectorAll('audio').forEach(a=>a.volume=val/100);
+    }catch(e){}
+  };
+  window.addEventListener('DOMContentLoaded',()=>{
+    const slider=document.getElementById('volSlider');
+    const saved=localStorage.getItem(volumeKey)||localStorage.getItem('deviationMapBgmVolume_v27')||'35';
+    if(slider){
+      slider.value=saved;
+      slider.addEventListener('input', window.__applyBgmVolume);
+      slider.addEventListener('change', window.__applyBgmVolume);
+    }
+    window.__applyBgmVolume();
+  });
+  const OriginalAudio=window.Audio;
+  window.Audio=function(src){
+    const a=new OriginalAudio(src);
+    setTimeout(()=>{try{a.volume=currentVolume()}catch(e){}},0);
+    return a;
+  };
+  window.Audio.prototype=OriginalAudio.prototype;
+})();
+</script>
+
 </body>
 </html>
