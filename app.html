@@ -44,11 +44,12 @@ button{border:1px solid rgba(53,234,217,.45);border-radius:13px;background:rgba(
 .toast{position:absolute;left:50%;bottom:24px;transform:translateX(-50%) translateY(80px);background:#092c2f;border:1px solid rgba(53,234,217,.45);border-radius:999px;padding:10px 18px;z-index:60;transition:.2s;font-weight:800}.toast.show{transform:translateX(-50%) translateY(0)}
 .coord{display:none}
 </style>
+<!-- Ver3.8 fixed pin positions for Manibus/Hakugin -->
 </head>
 <body>
 <div class="app">
 <header>
-  <div class="title"><h1>デビエーション収容箱マップ</h1><div class="sub"><span id="mapSub">MANIBUS BASE MAP</span> / Ver3.7</div></div>
+  <div class="title"><h1>デビエーション収容箱マップ</h1><div class="sub"><span id="mapSub">MANIBUS BASE MAP</span> / Ver3.8</div></div>
   <div class="pill"><small>回収率</small><b id="countTop">0/6</b></div>
   <button class="topbtn" id="fit">全体表示</button>
   <button class="topbtn" id="reset">リセット</button>
@@ -56,7 +57,7 @@ button{border:1px solid rgba(53,234,217,.45);border-radius:13px;background:rgba(
   <div class="headerVol"><label>音量 <span id="volLabel">35%</span></label><input id="volSlider" type="range" min="0" max="100" value="35"></div>
 </header>
 <main id="stage" class="stage">
-  <div id="layer" class="layer"><img id="map" class="map" src="manibus-map-clean.png?v=70" alt=""><div id="pins"></div></div>
+  <div id="layer" class="layer"><img id="map" class="map" src="manibus-map-clean.png?v=71" alt=""><div id="pins"></div></div>
   <div class="mapSwitch"><label>マップ<br>切り替え</label><select id="mapSelect"><option value="manibus">マニブス 0/6</option><option value="hakugin">白銀 0/6</option></select></div>
   <div class="floating"><button id="panelBtn">表示設定</button></div>
   <section id="panel" class="panel">
@@ -66,12 +67,12 @@ button{border:1px solid rgba(53,234,217,.45);border-radius:13px;background:rgba(
     <label class="chk"><input id="editPins" type="checkbox">ピン位置調整</label>
   </section>
   <div class="zoom"><button id="zin">＋</button><button id="zout">−</button></div>
-  <div id="coord" class="coord"></div><div class="ver">Version 3.7</div><aside id="drawer" class="drawer"></aside><div id="toast" class="toast">保存しました</div>
+  <div id="coord" class="coord"></div><div class="ver">Version 3.8</div><aside id="drawer" class="drawer"></aside><div id="toast" class="toast">保存しました</div>
 </main>
 </div>
 <script>
 const MAPS={
-  manibus:{label:'マニブス',sub:'MANIBUS BASE MAP',map:'manibus-map-clean.png?v=70',key:'deviationMapPins_v70_manibus',pins:[
+  manibus:{label:'マニブス',sub:'MANIBUS BASE MAP',map:'manibus-map-clean.png?v=71',key:'deviationMapPins_v71_manibus',pins:[
     {id:'p1',no:'001',x:.70,y:.82,title:'マニブス デビエーション収容箱 No.001',region:'ブロークンデルタ',place:'マイヤー市場付近',coord:'5754,-6566',desc:'マイヤー市場拠点の小部屋の中',image:'manibus-no001.jpg',done:false},
     {id:'p2',no:'002',x:.76,y:.72,title:'マニブス デビエーション収容箱 No.002',region:'デイトン湿地',place:'デッドウィル付近',coord:'5988,-5512',desc:'デッドウィルのワールドストーン裏の小屋の中',image:'manibus-no002.jpg',done:false},
     {id:'p3',no:'003',x:.66,y:.58,title:'マニブス デビエーション収容箱 No.003',region:'アイアン川',place:'グレイウォーターキャンプ',coord:'5356,-3252',desc:'グレイウォーターキャンプのワールドストーン横の建物の階段を上がった場所',image:'manibus-no003.png',done:false},
@@ -79,7 +80,7 @@ const MAPS={
     {id:'p5',no:'005',x:.56,y:.47,title:'マニブス デビエーション収容箱 No.005',region:'ローンウルフ荒野',place:'ブラックフェルタウン付近',coord:'4109,-1447',desc:'ブラックフェルタウンのワールドストーンを真っ直ぐ進んだ先にある大きな建物の左側の建物の中',image:'manibus-no005.jpg',done:false},
     {id:'p6',no:'006',x:.62,y:.42,title:'マニブス デビエーション収容箱 No.006',region:'ローンウルフ荒野',place:'AR研究所',coord:'6931,-1805',desc:'AR研究所4階の謎の箱がある部屋の後ろの部屋の中',image:'manibus-no006.jpg',done:false}
   ]},
-  hakugin:{label:'白銀',sub:'HAKUGIN MAP',map:'hakugin-map.png?v=70',key:'deviationMapPins_v70_hakugin',pins:[
+  hakugin:{label:'白銀',sub:'HAKUGIN MAP',map:'hakugin-map.png?v=71',key:'deviationMapPins_v71_hakugin',pins:[
     {id:'h1',no:'001',x:.78,y:.39,title:'白銀 デビエーション収容箱 No.001',region:'メノウ凍原',place:'座礁の浜',coord:'6237,5544',desc:'座礁の浜の船の右脇の水際',image:'hakugin-no001.jpg',done:false},
     {id:'h2',no:'002',x:.63,y:.48,title:'白銀 デビエーション収容箱 No.002',region:'ヴィーナ峡湾',place:'アイスケーブ',coord:'-391,5508',desc:'アイスケーブのワールドストーンの左側',image:'hakugin-no002.jpg',done:false},
     {id:'h3',no:'003',x:.49,y:.54,title:'白銀 デビエーション収容箱 No.003',region:'ヴィーナ峡湾',place:'シダーロッジ',coord:'-1493,4551',desc:'シダーロッジの小屋の中',image:'hakugin-no003.jpg',done:false},
@@ -88,7 +89,7 @@ const MAPS={
     {id:'h6',no:'006',x:.24,y:.34,title:'白銀 デビエーション収容箱 No.006',region:'余燼の浜辺',place:'ソイルエリア',coord:'-5331,5998',desc:'ソイルエリアの小屋の中',image:'hakugin-no006.jpg',done:false}
   ]}
 };
-let currentMapId=localStorage.getItem('deviationCurrentMap_v70')||'manibus';
+let currentMapId=localStorage.getItem('deviationCurrentMap_v71')||'manibus';
 let currentMap=MAPS[currentMapId]||MAPS.manibus;
 let pins=[];
 const stage=document.getElementById('stage'),layer=document.getElementById('layer'),map=document.getElementById('map'),pinsEl=document.getElementById('pins'),drawer=document.getElementById('drawer'),toast=document.getElementById('toast');
@@ -103,11 +104,11 @@ function clampPan(){const r=stage.getBoundingClientRect();const w=mapW()*scale,h
 function apply(){clampPan();layer.style.transform=`translate(${tx}px,${ty}px) scale(${scale})`}
 function fitMap(){const r=stage.getBoundingClientRect(),w=map.naturalWidth||1100,h=map.naturalHeight||1000;if(currentMapId==='hakugin'){scale=r.width/w*1.82;tx=(r.width-w*scale)/2+78;ty=Math.max(8,(r.height-h*scale)/2-10)}else{scale=Math.min(r.width/w*1.24,r.height/h*1.24);tx=(r.width-w*scale)/2+46;ty=Math.max(14,(r.height-h*scale)/2-6)}apply()}
 function updateCounts(){const d=pins.filter(p=>p.done).length,t=pins.length;countTop.textContent=countBig.textContent=`${d}/${t}`;Object.keys(MAPS).forEach((id,idx)=>{const m=MAPS[id];const s=JSON.parse(localStorage.getItem(m.key)||'null');const arr=(s&&s.length===m.pins.length)?s:m.pins;const done=arr.filter(p=>p.done).length;mapSelect.options[idx].text=`${m.label} ${done}/${m.pins.length}`})}
-function render(){pinsEl.innerHTML='';const undone=showUndone.checked,edit=editPins.checked;pins.forEach(p=>{if(undone&&p.done)return;const b=document.createElement('button');b.className='pin'+(p.done?' done':'')+(edit?' edit':'');b.style.left=(p.x*100)+'%';b.style.top=(p.y*100)+'%';b.innerHTML=`<img src="deviation-box-icon.png?v=70" onerror="this.style.display='none'"><span>No.${p.no}</span>`;b.addEventListener('pointerdown',ev=>pinDown(ev,p,b));b.addEventListener('click',ev=>{ev.stopPropagation();if(!edit)openDrawer(p.id)});pinsEl.appendChild(b)});updateCounts()}
-function switchMap(id){currentMapId=id;localStorage.setItem('deviationCurrentMap_v70',id);loadMapPins();map.src=currentMap.map;mapSub.textContent=currentMap.sub;mapSelect.value=id;drawer.classList.remove('open');render();setTimeout(fitMap,80);msg(currentMap.label+'に切り替えました')}
+function render(){pinsEl.innerHTML='';const undone=showUndone.checked,edit=editPins.checked;pins.forEach(p=>{if(undone&&p.done)return;const b=document.createElement('button');b.className='pin'+(p.done?' done':'')+(edit?' edit':'');b.style.left=(p.x*100)+'%';b.style.top=(p.y*100)+'%';b.innerHTML=`<img src="deviation-box-icon.png?v=71" onerror="this.style.display='none'"><span>No.${p.no}</span>`;b.addEventListener('pointerdown',ev=>pinDown(ev,p,b));b.addEventListener('click',ev=>{ev.stopPropagation();if(!edit)openDrawer(p.id)});pinsEl.appendChild(b)});updateCounts()}
+function switchMap(id){currentMapId=id;localStorage.setItem('deviationCurrentMap_v71',id);loadMapPins();map.src=currentMap.map;mapSub.textContent=currentMap.sub;mapSelect.value=id;drawer.classList.remove('open');render();setTimeout(fitMap,80);msg(currentMap.label+'に切り替えました')}
 function stageToMap(cx,cy){const r=stage.getBoundingClientRect();return {x:(cx-r.left-tx)/scale,y:(cy-r.top-ty)/scale}}
 function pinDown(e,p,el){if(!editPins.checked)return;e.preventDefault();e.stopPropagation();let moved=false;el.setPointerCapture(e.pointerId);const move=ev=>{moved=true;const m=stageToMap(ev.clientX,ev.clientY);p.x=Math.max(0,Math.min(1,m.x/mapW()));p.y=Math.max(0,Math.min(1,m.y/mapH()));el.style.left=(p.x*100)+'%';el.style.top=(p.y*100)+'%'};const up=()=>{el.removeEventListener('pointermove',move);if(moved){save();render();msg('位置を保存しました')}};el.addEventListener('pointermove',move);el.addEventListener('pointerup',up,{once:true})}
-function openDrawer(id){const p=pins.find(v=>v.id===id);drawer.innerHTML=`<div class="head"><h2>${p.title}</h2><button class="close" onclick="closeDrawer()">×</button></div><div class="row"><div class="lab">状態</div><label class="doneBox"><input type="checkbox" ${p.done?'checked':''} onchange="toggleDone('${p.id}')">回収済み</label></div><img class="shot" src="${p.image}?v=70"><div class="row"><div class="lab">地域</div><div class="val">${p.region}</div></div><div class="row"><div class="lab">場所</div><div class="val">${p.place}</div></div><div class="row"><div class="lab">座標</div><div class="val">${p.coord}<button class="copyCoord" onclick="copyCoord('${p.coord}')">コピー</button></div></div><div class="row"><div class="lab">説明</div><div class="val">${p.desc}</div></div>`;drawer.classList.add('open')}
+function openDrawer(id){const p=pins.find(v=>v.id===id);drawer.innerHTML=`<div class="head"><h2>${p.title}</h2><button class="close" onclick="closeDrawer()">×</button></div><div class="row"><div class="lab">状態</div><label class="doneBox"><input type="checkbox" ${p.done?'checked':''} onchange="toggleDone('${p.id}')">回収済み</label></div><img class="shot" src="${p.image}?v=71"><div class="row"><div class="lab">地域</div><div class="val">${p.region}</div></div><div class="row"><div class="lab">場所</div><div class="val">${p.place}</div></div><div class="row"><div class="lab">座標</div><div class="val">${p.coord}<button class="copyCoord" onclick="copyCoord('${p.coord}')">コピー</button></div></div><div class="row"><div class="lab">説明</div><div class="val">${p.desc}</div></div>`;drawer.classList.add('open')}
 window.closeDrawer=()=>drawer.classList.remove('open');
 window.toggleDone=id=>{const p=pins.find(v=>v.id===id);p.done=!p.done;save();render();openDrawer(id)}
 window.copyCoord=text=>{try{navigator.clipboard.writeText(text);msg('座標をコピーしました')}catch(e){msg(text)}}
@@ -124,13 +125,13 @@ function zoomAt(cx,cy,ns){ns=Math.max(.35,Math.min(4,ns));const r=stage.getBound
 stage.addEventListener('pointerdown',e=>{if(e.target.closest('.pin,.drawer,.panel,.floating,.zoom,.mapSwitch'))return;stage.setPointerCapture(e.pointerId);pointers.set(e.pointerId,e);if(pointers.size===1){lastX=e.clientX;lastY=e.clientY}if(pointers.size===2){const a=[...pointers.values()];startDist=Math.hypot(a[0].clientX-a[1].clientX,a[0].clientY-a[1].clientY);startScale=scale}});
 stage.addEventListener('pointermove',e=>{if(!pointers.has(e.pointerId))return;pointers.set(e.pointerId,e);if(pointers.size===1){tx+=e.clientX-lastX;ty+=e.clientY-lastY;lastX=e.clientX;lastY=e.clientY;apply()}else if(pointers.size===2){const a=[...pointers.values()];const d=Math.hypot(a[0].clientX-a[1].clientX,a[0].clientY-a[1].clientY);zoomAt((a[0].clientX+a[1].clientX)/2,(a[0].clientY+a[1].clientY)/2,startScale*(d/startDist))}});
 stage.addEventListener('pointerup',e=>pointers.delete(e.pointerId));stage.addEventListener('pointercancel',e=>pointers.delete(e.pointerId));
-let audioCtx=null,gainNode=null,currentSource=null,buffers={},bgmMode=localStorage.getItem('deviationMapBgm_v70')||'off',bgmVolume=Number(localStorage.getItem('deviationMapBgmVolume_v70')||'35');
+let audioCtx=null,gainNode=null,currentSource=null,buffers={},bgmMode=localStorage.getItem('deviationMapBgm_v71')||'off',bgmVolume=Number(localStorage.getItem('deviationMapBgmVolume_v71')||'35');
 function setBgmButton(){bgmBtn.textContent=bgmMode==='day'?'☀️ DAY':bgmMode==='night'?'🌙 NIGHT':'BGM OFF'}function setVolumeUi(){volSlider.value=bgmVolume;volLabel.textContent=bgmVolume+'%'}
 async function ensureAudio(){if(!audioCtx){audioCtx=new (window.AudioContext||window.webkitAudioContext)();gainNode=audioCtx.createGain();gainNode.gain.value=bgmVolume/100;gainNode.connect(audioCtx.destination)}if(audioCtx.state==='suspended')await audioCtx.resume()}
 async function loadBuffer(mode){if(buffers[mode])return buffers[mode];await ensureAudio();const res=await fetch(mode==='night'?'night_bgm.mp3':'day_bgm.mp3',{cache:'reload'});const arr=await res.arrayBuffer();return buffers[mode]=await audioCtx.decodeAudioData(arr)}
 function stopBgm(){if(currentSource){try{currentSource.stop()}catch(e){}currentSource=null}}
-async function playBgm(mode){await ensureAudio();stopBgm();bgmMode=mode;localStorage.setItem('deviationMapBgm_v70',mode);if(mode==='off'){setBgmButton();return}const s=audioCtx.createBufferSource();s.buffer=await loadBuffer(mode);s.loop=true;s.connect(gainNode);gainNode.gain.setValueAtTime(bgmVolume/100,audioCtx.currentTime);s.start(0);currentSource=s;setBgmButton()}
-bgmBtn.onclick=()=>{playBgm(bgmMode==='off'?'day':bgmMode==='day'?'night':'off')};volSlider.oninput=()=>{bgmVolume=Number(volSlider.value);localStorage.setItem('deviationMapBgmVolume_v70',String(bgmVolume));volLabel.textContent=bgmVolume+'%';if(gainNode&&audioCtx)gainNode.gain.setValueAtTime(bgmVolume/100,audioCtx.currentTime)}
+async function playBgm(mode){await ensureAudio();stopBgm();bgmMode=mode;localStorage.setItem('deviationMapBgm_v71',mode);if(mode==='off'){setBgmButton();return}const s=audioCtx.createBufferSource();s.buffer=await loadBuffer(mode);s.loop=true;s.connect(gainNode);gainNode.gain.setValueAtTime(bgmVolume/100,audioCtx.currentTime);s.start(0);currentSource=s;setBgmButton()}
+bgmBtn.onclick=()=>{playBgm(bgmMode==='off'?'day':bgmMode==='day'?'night':'off')};volSlider.oninput=()=>{bgmVolume=Number(volSlider.value);localStorage.setItem('deviationMapBgmVolume_v71',String(bgmVolume));volLabel.textContent=bgmVolume+'%';if(gainNode&&audioCtx)gainNode.gain.setValueAtTime(bgmVolume/100,audioCtx.currentTime)}
 function init(){loadMapPins();map.src=currentMap.map;mapSub.textContent=currentMap.sub;mapSelect.value=currentMapId;setBgmButton();setVolumeUi();render();map.onload=fitMap;setTimeout(fitMap,150)}
 init();
 if('serviceWorker' in navigator){navigator.serviceWorker.getRegistrations().then(rs=>rs.forEach(r=>r.unregister())).catch(()=>{})}
