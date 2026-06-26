@@ -7,7 +7,7 @@
 <style>
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{margin:0;height:100%;overflow:hidden;background:#041011;color:#f4ffff;font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Yu Gothic",sans-serif}
-.app{height:100%;display:flex;flex-direction:column;background:linear-gradient(rgba(2,10,11,.36),rgba(2,10,11,.65)),url("site-bg-case.png?v=103");background-size:cover;background-position:center}
+.app{height:100%;display:flex;flex-direction:column;background:linear-gradient(rgba(2,10,11,.36),rgba(2,10,11,.65)),url("site-bg-case.png?v=104");background-size:cover;background-position:center}
 header{height:164px;display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:7px;align-items:center;padding:10px 12px;background:rgba(3,16,18,.64);border-bottom:1px solid rgba(53,234,217,.35);z-index:20;backdrop-filter:blur(4px)}
 .title{grid-column:1/5}.title h1{font-size:20px;line-height:1.08;margin:0}.sub{margin-top:5px;color:#a9bdc3;font-size:12px;letter-spacing:.08em}
 .pill{border:1px solid rgba(53,234,217,.55);border-radius:15px;padding:7px 4px;text-align:center;background:rgba(35,120,115,.25)}
@@ -92,43 +92,8 @@ button{border:1px solid rgba(53,234,217,.45);border-radius:13px;background:rgba(
 }
 
 
-.scenarioNote{
-  position:absolute;
-  left:18px;
-  right:190px;
-  top:202px;
-  z-index:80;
-  color:rgba(255,255,255,.94);
-  font-size:13px;
-  font-weight:800;
-  line-height:1.45;
-  text-align:left;
-  background:rgba(3,18,20,.70);
-  border:1.5px solid rgba(53,234,217,.78);
-  border-radius:10px;
-  padding:8px 12px;
-  box-sizing:border-box;
-  backdrop-filter:blur(6px);
-  pointer-events:none;
-}
-.dailyNote{
-  position:absolute;
-  left:18px;
-  right:150px;
-  bottom:28px;
-  z-index:80;
-  color:rgba(255,255,255,.92);
-  font-size:13px;
-  line-height:1.45;
-  text-align:left;
-  background:rgba(3,18,20,.68);
-  border:1.5px solid rgba(53,234,217,.78);
-  border-radius:12px;
-  padding:8px 12px;
-  box-sizing:border-box;
-  backdrop-filter:blur(6px);
-  pointer-events:none;
-}
+
+
 .ver{
   position:absolute;
   right:16px;
@@ -137,26 +102,81 @@ button{border:1px solid rgba(53,234,217,.45);border-radius:13px;background:rgba(
   z-index:81;
 }
 @media (max-width:520px){
-  .scenarioNote{
-    left:18px;
-    right:146px;
-    top:203px;
-    font-size:11.5px;
-    line-height:1.35;
-    padding:7px 9px;
-  }
-  .dailyNote{
-    left:18px;
-    right:112px;
-    bottom:28px;
-    font-size:11.5px;
-    line-height:1.35;
-    padding:7px 9px;
-  }
+  
+  
   .ver{
     right:16px;
     bottom:40px;
     font-size:12px;
+  }
+}
+
+
+.scenarioNote{
+  position:fixed !important;
+  left:28px;
+  right:205px;
+  top:405px;
+  z-index:9999;
+  color:rgba(255,255,255,.94);
+  font-size:13px;
+  font-weight:800;
+  line-height:1.35;
+  text-align:left;
+  background:rgba(3,18,20,.72);
+  border:1.5px solid rgba(53,234,217,.78);
+  border-radius:10px;
+  padding:8px 12px;
+  box-sizing:border-box;
+  backdrop-filter:blur(6px);
+  pointer-events:none;
+}
+.dailyNote{
+  position:fixed !important;
+  left:28px;
+  right:170px;
+  bottom:148px;
+  z-index:9999;
+  color:rgba(255,255,255,.92);
+  font-size:13px;
+  line-height:1.35;
+  text-align:left;
+  background:rgba(3,18,20,.70);
+  border:1.5px solid rgba(53,234,217,.78);
+  border-radius:12px;
+  padding:8px 12px;
+  box-sizing:border-box;
+  backdrop-filter:blur(6px);
+  pointer-events:none;
+}
+.ver{
+  position:fixed !important;
+  right:28px;
+  bottom:158px;
+  color:rgba(255,255,255,.58);
+  z-index:10000;
+}
+@media (max-width:520px){
+  .scenarioNote{
+    left:28px;
+    right:205px;
+    top:405px;
+    font-size:12px;
+    line-height:1.32;
+    padding:8px 10px;
+  }
+  .dailyNote{
+    left:28px;
+    right:172px;
+    bottom:148px;
+    font-size:12px;
+    line-height:1.32;
+    padding:8px 10px;
+  }
+  .ver{
+    right:28px;
+    bottom:158px;
+    font-size:13px;
   }
 }
 
@@ -176,6 +196,7 @@ button{border:1px solid rgba(53,234,217,.45);border-radius:13px;background:rgba(
 <!-- Ver1.0 v101: scenario note inserted in header flow; daily note beside Version -->
 <!-- Ver1.0 Final v102: scenario note aligned with volume; daily note aligned with Version -->
 <!-- Ver1.0 v103: scenario note aligned with volume; recovery note aligned with Version -->
+<!-- Ver1.0 v104: notes pinned to viewport; scenario aligns with volume, daily aligns with Version -->
 </head>
 <body>
 <div class="app">
@@ -188,7 +209,7 @@ button{border:1px solid rgba(53,234,217,.45);border-radius:13px;background:rgba(
   <div class="headerVol"><label>音量 <span id="volLabel">35%</span></label><input id="volSlider" type="range" min="0" max="100" value="35"></div>
 </header>
 <main id="stage" class="stage">
-  <div id="layer" class="layer"><img id="map" class="map" src="manibus-map-clean.png?v=103" alt=""><div id="pins"></div></div>
+  <div id="layer" class="layer"><img id="map" class="map" src="manibus-map-clean.png?v=104" alt=""><div id="pins"></div></div>
   <div class="mapSwitch"><label>マップ<br>切り替え</label><select id="mapSelect"><option value="manibus">マニブス 0/6</option><option value="hakugin">白銀 0/6</option></select></div>
   <div class="floating"><button id="panelBtn">表示設定</button></div>
   <section id="panel" class="panel">
@@ -198,14 +219,14 @@ button{border:1px solid rgba(53,234,217,.45);border-radius:13px;background:rgba(
     <label class="chk"><input id="editPins" type="checkbox">ピン位置調整</label>
   </section>
   <div class="zoom"><button id="zin">＋</button><button id="zout">−</button></div>
-  <div class="scenarioNote">シナリオ「永い夢」のマニブス・白銀マップの<br>デビエーション収容箱の場所も共通です。</div><div id="coord" class="coord"></div><div class="dailyNote">各デビエーション収容箱から1日1回まで回収可能。<br>毎日AM9:00に再度回収できます。</div><div class="ver">Version 1.0</div><aside id="drawer" class="drawer"></aside><div id="toast" class="toast">保存しました</div>
-<audio id="dayAudio" src="day_bgm.mp3?v=103" loop preload="auto" playsinline></audio>
-<audio id="nightAudio" src="night_bgm.mp3?v=103" loop preload="auto" playsinline></audio>
+  <div id="coord" class="coord"></div><div class="ver">Version 1.0</div><aside id="drawer" class="drawer"></aside><div id="toast" class="toast">保存しました</div>
+<audio id="dayAudio" src="day_bgm.mp3?v=104" loop preload="auto" playsinline></audio>
+<audio id="nightAudio" src="night_bgm.mp3?v=104" loop preload="auto" playsinline></audio>
 </main>
 </div>
 <script>
 const MAPS={
-  manibus:{label:'マニブス',sub:'MANIBUS BASE MAP',map:'manibus-map-clean.png?v=103',key:'deviationMapPins_v91_manibus',pins:[
+  manibus:{label:'マニブス',sub:'MANIBUS BASE MAP',map:'manibus-map-clean.png?v=104',key:'deviationMapPins_v91_manibus',pins:[
     {id:'p1',no:'001',x:.70,y:.82,title:'マニブス デビエーション収容箱 No.001',region:'ブロークンデルタ',place:'マイヤー市場付近',coord:'5754,-6566',desc:'マイヤー市場の建物の部屋',image:'manibus-no001.jpg',done:false},
     {id:'p2',no:'002',x:.76,y:.72,title:'マニブス デビエーション収容箱 No.002',region:'デイトン湿地',place:'デッドウィル付近',coord:'5988,-5512',desc:'デッドウィルのワールドストーン裏の倉庫',image:'manibus-no002.jpg',done:false},
     {id:'p3',no:'003',x:.66,y:.58,title:'マニブス デビエーション収容箱 No.003',region:'アイアン川',place:'グレイウォーターキャンプ',coord:'5356,-3252',desc:'グレイウォーターキャンプのワールドストーン横の建物の階段を上がった屋上',image:'manibus-no003.png',done:false},
@@ -213,7 +234,7 @@ const MAPS={
     {id:'p5',no:'005',x:.56,y:.47,title:'マニブス デビエーション収容箱 No.005',region:'ローンウルフ荒野',place:'ブラックフェルタウン付近',coord:'4109,-1447',desc:'ブラックフェルタウンのワールドストーンを真っ直ぐ進んだ先にある大きな建物の左側',image:'manibus-no005.jpg',done:false},
     {id:'p6',no:'006',x:.735,y:.435,title:'マニブス デビエーション収容箱 No.006',region:'ローンウルフ荒野',place:'AR研究所',coord:'6931,-1805',desc:'AR研究所4階の謎の箱があるフロアの奥の部屋',image:'manibus-no006.jpg',done:false}
   ]},
-  hakugin:{label:'白銀',sub:'HAKUGIN MAP',map:'hakugin-map.png?v=103',key:'deviationMapPins_v91_hakugin',pins:[
+  hakugin:{label:'白銀',sub:'HAKUGIN MAP',map:'hakugin-map.png?v=104',key:'deviationMapPins_v91_hakugin',pins:[
     {id:'h1',no:'001',x:.830,y:.360,title:'白銀 デビエーション収容箱 No.001',region:'メノウ凍原',place:'座礁の浜',coord:'6237,5544',desc:'座礁の浜の船の右脇の波打ち際',image:'hakugin-no001.jpg',done:false},
     {id:'h2',no:'002',x:.63,y:.48,title:'白銀 デビエーション収容箱 No.002',region:'ヴィーナ峡湾',place:'アイスケーブ',coord:'-391,5508',desc:'アイスケーブのワールドストーンの左側',image:'hakugin-no002.jpg',done:false},
     {id:'h3',no:'003',x:.49,y:.54,title:'白銀 デビエーション収容箱 No.003',region:'ヴィーナ峡湾',place:'シダーロッジ',coord:'-1493,4551',desc:'シダーロッジの小屋',image:'hakugin-no003.jpg',done:false},
@@ -246,11 +267,11 @@ function clampPan(){
 function apply(){clampPan();layer.style.transform=`translate(${tx}px,${ty}px) scale(${scale})`}
 function fitMap(){const r=stage.getBoundingClientRect(),w=map.naturalWidth||1100,h=map.naturalHeight||1000;if(currentMapId==='hakugin'){scale=r.width/w*1.82;tx=(r.width-w*scale)/2+78;ty=Math.max(8,(r.height-h*scale)/2-10)}else{scale=Math.min(r.width/w*1.26,r.height/h*1.26);tx=(r.width-w*scale)/2+54;ty=Math.max(14,(r.height-h*scale)/2-6)}apply()}
 function updateCounts(){const d=pins.filter(p=>p.done).length,t=pins.length;countTop.textContent=countBig.textContent=`${d}/${t}`;Object.keys(MAPS).forEach((id,idx)=>{const m=MAPS[id];const s=JSON.parse(localStorage.getItem(m.key)||'null');const arr=(s&&s.length===m.pins.length)?s:m.pins;const done=arr.filter(p=>p.done).length;mapSelect.options[idx].text=`${m.label} ${done}/${m.pins.length}`})}
-function render(){pinsEl.innerHTML='';const undone=showUndone.checked,edit=editPins.checked;pins.forEach(p=>{if(undone&&p.done)return;const b=document.createElement('button');b.className='pin'+(p.done?' done':'')+(edit?' edit':'');b.style.left=(p.x*100)+'%';b.style.top=(p.y*100)+'%';b.innerHTML=`<img src="deviation-box-icon.png?v=103" onerror="this.style.display='none'"><span>No.${p.no}</span>`;b.addEventListener('pointerdown',ev=>pinDown(ev,p,b));b.addEventListener('click',ev=>{ev.stopPropagation();if(!edit)openDrawer(p.id)});pinsEl.appendChild(b)});updateCounts()}
+function render(){pinsEl.innerHTML='';const undone=showUndone.checked,edit=editPins.checked;pins.forEach(p=>{if(undone&&p.done)return;const b=document.createElement('button');b.className='pin'+(p.done?' done':'')+(edit?' edit':'');b.style.left=(p.x*100)+'%';b.style.top=(p.y*100)+'%';b.innerHTML=`<img src="deviation-box-icon.png?v=104" onerror="this.style.display='none'"><span>No.${p.no}</span>`;b.addEventListener('pointerdown',ev=>pinDown(ev,p,b));b.addEventListener('click',ev=>{ev.stopPropagation();if(!edit)openDrawer(p.id)});pinsEl.appendChild(b)});updateCounts()}
 function switchMap(id){currentMapId=id;/* start map is always manibus; do not save current map */loadMapPins();map.src=currentMap.map;mapSub.textContent=currentMap.sub;mapSelect.value=id;drawer.classList.remove('open');render();setTimeout(fitMap,80);msg(currentMap.label+'に切り替えました')}
 function stageToMap(cx,cy){const r=stage.getBoundingClientRect();return {x:(cx-r.left-tx)/scale,y:(cy-r.top-ty)/scale}}
 function pinDown(e,p,el){if(!editPins.checked)return;e.preventDefault();e.stopPropagation();let moved=false;el.setPointerCapture(e.pointerId);const move=ev=>{moved=true;const m=stageToMap(ev.clientX,ev.clientY);p.x=Math.max(0,Math.min(1,m.x/mapW()));p.y=Math.max(0,Math.min(1,m.y/mapH()));el.style.left=(p.x*100)+'%';el.style.top=(p.y*100)+'%'};const up=()=>{el.removeEventListener('pointermove',move);if(moved){save();render();msg('位置を保存しました')}};el.addEventListener('pointermove',move);el.addEventListener('pointerup',up,{once:true})}
-function openDrawer(id){const p=pins.find(v=>v.id===id);drawer.innerHTML=`<div class="head"><h2>${p.title}</h2><button class="close" onclick="closeDrawer()">×</button></div><div class="row"><div class="lab">状態</div><label class="doneBox"><input type="checkbox" ${p.done?'checked':''} onchange="toggleDone('${p.id}')">回収済み</label></div><img class="shot" src="${p.image}?v=103"><div class="row"><div class="lab">地域</div><div class="val">${p.region}</div></div><div class="row"><div class="lab">場所</div><div class="val">${p.place}</div></div><div class="row"><div class="lab">座標</div><div class="val">${p.coord}<button class="copyCoord" onclick="copyCoord('${p.coord}')">コピー</button></div></div><div class="row"><div class="lab">説明</div><div class="val">${p.desc}</div></div>`;drawer.classList.add('open')}
+function openDrawer(id){const p=pins.find(v=>v.id===id);drawer.innerHTML=`<div class="head"><h2>${p.title}</h2><button class="close" onclick="closeDrawer()">×</button></div><div class="row"><div class="lab">状態</div><label class="doneBox"><input type="checkbox" ${p.done?'checked':''} onchange="toggleDone('${p.id}')">回収済み</label></div><img class="shot" src="${p.image}?v=104"><div class="row"><div class="lab">地域</div><div class="val">${p.region}</div></div><div class="row"><div class="lab">場所</div><div class="val">${p.place}</div></div><div class="row"><div class="lab">座標</div><div class="val">${p.coord}<button class="copyCoord" onclick="copyCoord('${p.coord}')">コピー</button></div></div><div class="row"><div class="lab">説明</div><div class="val">${p.desc}</div></div>`;drawer.classList.add('open')}
 window.closeDrawer=()=>drawer.classList.remove('open');
 window.toggleDone=id=>{const p=pins.find(v=>v.id===id);p.done=!p.done;save();render();openDrawer(id)}
 window.copyCoord=text=>{try{navigator.clipboard.writeText(text);msg('座標をコピーしました')}catch(e){msg(text)}}
@@ -301,5 +322,6 @@ function init(){loadMapPins();map.src=currentMap.map;mapSub.textContent=currentM
 init();
 if('serviceWorker' in navigator){navigator.serviceWorker.getRegistrations().then(rs=>rs.forEach(r=>r.unregister())).catch(()=>{})}
 </script>
+<div class="scenarioNote">シナリオ「永い夢」のマニブス・白銀マップの<br>デビエーション収容箱の場所も共通です。</div><div class="dailyNote">各デビエーション収容箱から1日1回まで回収可能。<br>毎日AM9:00に再度回収できます。</div>
 </body>
 </html>
